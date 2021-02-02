@@ -1,3 +1,7 @@
+# Hier werden transformierte Daten gespeichert
+
+# Unten gibt es Bespiele für Ausgansgformate Version 2019 (GraphML, JSON)
+
 ### Beispiel für ein Record transformiert zu JSON
 #### mit Parametern outputFormat="json", dataSelection=True
 
