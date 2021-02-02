@@ -144,14 +144,14 @@ Es werden folgende Codes geprüft und Meldungen über Fehler in `log` gespeicher
 Veraltete Identifikatoren, die in Feldern 5XX gefunden werden, werden bei der Transformation zu GRAPHML durch aktuelle Identifikatoren ersetzt. Relationen mit fehlenden, nicht eindeutigen Identifikatoren bzw. ohne Identifikatoren (wieder in Feldern 5XX) werden ignoriert, also keine Verknüpfungen zu in Feldern 1XX/245 beschriebenen Entitäten/Ressourcen hergestellt.
 
 
-### a) Entitäten mit veralteten Identifikatoren (betrifft nur GND-Entitäten, kann man aber bei alle Quellen in Relationen finden)
+### a) Entitäten mit veralteten Identifikatoren (betrifft nur GND-Entitäten, kann man aber bei allen Quellen, wo Relationen beschrieben sind, finden)
 Veraltete Identifikatoren werden durch aktuelle ersetzt, um entsprechende Entitäten/Ressourcen angemessen zu verknüpfen. Eine Liste der veralteten und neuen Identifikatoren findet man in `OldIds.py`.
 
 ### b) Entitäten aus fehlenden Tn-Datensätzen (Stand 2019-2020, Datendump 2021 hat keine Tn-Datensätze)
 Es gibt 4.185.374 Datensätze in der GND, die in unseren Daten fehlen. Es geht um Tn-Datensätze (nur Namensansetzungen). Diese Daten sind für SoNAR, so GM, nicht bedeutend, da die Datensätze nicht eine Entität (Person), sondern einen Namen diverser Entitäten (Personen) beschreiben. Somit werden keine Verknüpfungen zu diesen Entitäten hergestellt. Ihre Ids findet man in `nonEntities.txt`.
 
 ### c) Entitäten mit nicht eindeutigen veralteten Identifikatoren
-Via neo4j werden nicht eindeutige veralteten Identifikatoren gefunden, die zwei neuen Identifikatoren entsprechen. Sie werden zu `nonEntities.txt` hinzugefügt, weil ihre Zuordnung zu neuen Identifikatoren widersprüchlich ist.
+Via neo4j werden nicht eindeutige veralteten Identifikatoren gefunden, die zwei neuen Identifikatoren entsprechen. Sie werden zu `src/nonEntities.txt` hinzugefügt, weil ihre Zuordnung zu neuen Identifikatoren widersprüchlich ist.
 
 - **Veraltete ID (neue ID1, neue ID2)**
 - 122945662 (10211787X, 118693484)
