@@ -125,4 +125,4 @@
 2. `SourceType` = associatedRelation, areCoAuthors, areCoEditors, affiliatedRelation, correspondedRelation, knows
 3. `SourceTypeAddInfo` = undirected, directed
 
-![abstraktes Graphmodell in neo4j](https://raw.githubusercontent.com/sonar-idh/Transformer/main/doc/graphmodell.svg?token=ALJMLSB5HAMWM3MKJFRO4PTADGEDM)
+![abstraktes Graphmodell in neo4j](https://raw.githubusercontent.com/sonar-idh/Transformer/main/doc/graphmodell.svg)
