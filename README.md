@@ -1,6 +1,6 @@
 # Transformer
 
-# Transformation MARC21 
+# [Transformation MARC21](https://github.com/sonar-idh/Transformer/blob/main/src/MarcTransform.py) 
 
 **Eingabeformat**: MARC21
 
@@ -17,22 +17,25 @@
 
 ## Duplikate aus der GND und ZDB
 
+### Liste der gefundenen Duplikate s. in [`src/dublesBibliographicRecords.txt`](https://github.com/sonar-idh/Transformer/blob/main/src/dublesBibliographicRecords.txt)
+
  **Gilt für Transformation zu GRAPHML**
 
 Gleiche Ressourcen (bezüglich Identifikatoren), die in der DNB und ZDB vorkommen, sind zusammen verbunden.
 
-![](https://trello-attachments.s3.amazonaws.com/5e3c13bb607286561cc56f57/928x823/f3c06046ede30c6b3d679892fbc8e639/Anmerkung_2020-02-06_162043.png?raw=true)
+![Stand Ende 2019/Anfang 2020](https://trello-attachments.s3.amazonaws.com/5e3c13bb607286561cc56f57/928x823/f3c06046ede30c6b3d679892fbc8e639/Anmerkung_2020-02-06_162043.png?raw=true)
 
 
 ## Konsistenzprüfung
 
-Es gibt Fehlermeldungen, die in `errors...` geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
+
+Es gibt Fehlermeldungen, die in `log` geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
 - 1. Felder mit fehlenden Identifikatoren, Namen oder Titeln;
 - 2. Invalide Codes;
-- 3. Veraltete Identifikatoren in Feldern 5XX.
+- 3. Veraltete Identifikatoren in Feldern 5XX (s. in [`src/AllOldAuthorityIdentifier.py`](https://github.com/sonar-idh/Transformer/blob/main/src/AllOldAuthorityIdentifier.py)).
 
 ### 1. Prüfung der Felder mit Identifikatoren, Namen und Titel
-Es wird geprüft, ob es für einen Record Informationen zu Identifikator, Namen bzw. Titel existieren. Meldungen werden in `errors...` gespeichert, Datensätze bei der Transformation werden nicht geändert.
+Es wird geprüft, ob es für einen Record Informationen zu Identifikator, Namen bzw. Titel existieren. Meldungen werden in `log` gespeichert, Datensätze bei der Transformation werden nicht geändert.
 
 
 ```xml
@@ -137,6 +140,8 @@ Es werden folgende Codes geprüft und Meldungen über Fehler in `log` gespeicher
 - GND-Codes für die Art der Beziehung (Entity)
 - Codes für Relators (Resource)
 
+#### Gültige Codes aus MARC21 s. in [`src/MARC21Codes.py`](https://github.com/sonar-idh/Transformer/blob/main/src/MARC21Codes.py)
+
 ### 4. Prüfung der Identifikatoren (mit ISIL DE-588) in Feldern 5XX
 
  **Gilt für Transformation zu GRAPHML**
@@ -163,7 +168,7 @@ Via neo4j werden nicht eindeutige veralteten Identifikatoren gefunden, die zwei 
 Bei der Transformation zu GRAPHML werden Relationen zu Entitäten ohne Identifikatoren ignoriert. Eine angemessene Zuordnung dieser Entitäten zu GND-Entitäten ist nun manuell möglich.
 
 
-# Teil II. Transformation EAD 
+# [Transformation EAD](https://github.com/sonar-idh/Transformer/blob/main/src/EadTransform.py)
 
 **Eingabeformat**: EAD
 
