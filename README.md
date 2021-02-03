@@ -35,7 +35,7 @@ Gleiche Ressourcen (bezüglich Identifikatoren), die in der DNB und ZDB vorkomme
 ## Konsistenzprüfung
 
 
-Es gibt Fehlermeldungen, die in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
+Es gibt Fehlermeldungen, die in [`log`](https://github.com/sonar-idh/Transformer/tree/main/doc) geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
 - 1. Felder mit fehlenden Identifikatoren, Namen oder Titeln;
 - 2. Invalide Codes;
 - 3. Veraltete Identifikatoren in Feldern 5XX .
@@ -43,7 +43,7 @@ Es gibt Fehlermeldungen, die in [`log`] (https://github.com/sonar-idh/Transforme
 Beispiele der Fehlermeldungen s. in [`log/Readme.md`](https://github.com/sonar-idh/Transformer/blob/main/log/Readme.md).
 
 ### 1. Prüfung der Felder mit Identifikatoren, Namen und Titel
-Es wird geprüft, ob es für einen Record Informationen zu Identifikator, Namen bzw. Titel existieren. Meldungen werden in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) gespeichert, Datensätze bei der Transformation werden nicht geändert.
+Es wird geprüft, ob es für einen Record Informationen zu Identifikator, Namen bzw. Titel existieren. Meldungen werden in [`log`](https://github.com/sonar-idh/Transformer/tree/main/doc) gespeichert, Datensätze bei der Transformation werden nicht geändert.
 
 
 ```xml
@@ -133,7 +133,7 @@ Repetitive Felder bei der Transformation zu JSON, GRAPHML werden ignoriert. Tran
 ]
 ```
 ### 3. Prüfung der Codes
-Es werden folgende Codes geprüft und Meldungen über Fehler in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) gespeichert. Codes in Daten werden **nicht geändert**!
+Es werden folgende Codes geprüft und Meldungen über Fehler in [`log`](https://github.com/sonar-idh/Transformer/tree/main/doc) gespeichert. Codes in Daten werden **nicht geändert**!
 
 - Satztypen der GND (gndgen)
 - Untersatztypen der GND (gndspec)
@@ -198,7 +198,7 @@ Bei der Transformation zu GRAPHML werden Relationen zu Entitäten ohne Identifik
 
 ## Konsistenzprüfung
 
-Es findet gleiche Konsistenzprüfung wie bei MARC21 statt. Es gibt Fehlermeldungen, die in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
+Es findet gleiche Konsistenzprüfung wie bei MARC21 statt. Es gibt Fehlermeldungen, die in [`log`](https://github.com/sonar-idh/Transformer/tree/main/doc) geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
 - 1. Felder mit fehlenden Identifikatoren, Namen oder Titeln;
 - 2. Veraltete Identifikatoren bei Relationen.
 
