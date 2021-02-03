@@ -1,6 +1,20 @@
 
 # Transformer
 
+Um alle daten zu transformieren im Terminal folgendes ausführen:
+
+```
+python trs.py
+```
+
+### FIX 
+
+- Pfad zu Ordner mit Ausgangsdaten in Terminal eingeben
+- Konflikt in EadTransform.py line 56 beim Einlesen des Zip-Files, so steht z.Z. da ein String statt einer Variable 'filename'
+
+
+Zu beachten, dass Pfade zu Ausgangsdaten in [`trs.py`](https://github.com/sonar-idh/Transformer/blob/main/trs.py) geändert werden müssen.
+
 ### Weitere Informationen:
 - [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
 - [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
