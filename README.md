@@ -1,4 +1,9 @@
+
 # Transformer
+
+### Weitere Informationen:
+- [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
+- [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
 
 # [Transformation MARC21](https://github.com/sonar-idh/Transformer/blob/main/src/MarcTransform.py) 
 
@@ -15,6 +20,7 @@
 - `outputFormat={"json", "graphml"}`: 
  - `outputFormat="graphml"` ist nur in Kombination mit `dataSelection=True` möglich
 
+**Transformierte Daten werden in [`data`](https://github.com/sonar-idh/Transformer/tree/main/data) gespeichert**
 ## Duplikate aus der GND und ZDB
 
 ### Liste der gefundenen Duplikate s. in [`src/dublesBibliographicRecords.txt`](https://github.com/sonar-idh/Transformer/blob/main/src/dublesBibliographicRecords.txt)
@@ -29,13 +35,15 @@ Gleiche Ressourcen (bezüglich Identifikatoren), die in der DNB und ZDB vorkomme
 ## Konsistenzprüfung
 
 
-Es gibt Fehlermeldungen, die in `log` geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
+Es gibt Fehlermeldungen, die in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
 - 1. Felder mit fehlenden Identifikatoren, Namen oder Titeln;
 - 2. Invalide Codes;
-- 3. Veraltete Identifikatoren in Feldern 5XX (s. in [`src/AllOldAuthorityIdentifier.py`](https://github.com/sonar-idh/Transformer/blob/main/src/AllOldAuthorityIdentifier.py)).
+- 3. Veraltete Identifikatoren in Feldern 5XX .
+
+Beispiele der Fehlermeldungen s. in [`log/Readme.md`](https://github.com/sonar-idh/Transformer/blob/main/log/Readme.md).
 
 ### 1. Prüfung der Felder mit Identifikatoren, Namen und Titel
-Es wird geprüft, ob es für einen Record Informationen zu Identifikator, Namen bzw. Titel existieren. Meldungen werden in `log` gespeichert, Datensätze bei der Transformation werden nicht geändert.
+Es wird geprüft, ob es für einen Record Informationen zu Identifikator, Namen bzw. Titel existieren. Meldungen werden in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) gespeichert, Datensätze bei der Transformation werden nicht geändert.
 
 
 ```xml
@@ -125,7 +133,7 @@ Repetitive Felder bei der Transformation zu JSON, GRAPHML werden ignoriert. Tran
 ]
 ```
 ### 3. Prüfung der Codes
-Es werden folgende Codes geprüft und Meldungen über Fehler in `log` gespeichert. Codes in Daten werden **nicht geändert**!
+Es werden folgende Codes geprüft und Meldungen über Fehler in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) gespeichert. Codes in Daten werden **nicht geändert**!
 
 - Satztypen der GND (gndgen)
 - Untersatztypen der GND (gndspec)
@@ -150,10 +158,10 @@ Veraltete Identifikatoren, die in Feldern 5XX gefunden werden, werden bei der Tr
 
 
 ### a) Entitäten mit veralteten Identifikatoren (betrifft nur GND-Entitäten, kann man aber bei allen Quellen, wo Relationen beschrieben sind, finden)
-Veraltete Identifikatoren werden durch aktuelle ersetzt, um entsprechende Entitäten/Ressourcen angemessen zu verknüpfen. Eine Liste der veralteten und neuen Identifikatoren findet man in `OldIds.py`.
+Veraltete Identifikatoren werden durch aktuelle ersetzt, um entsprechende Entitäten/Ressourcen angemessen zu verknüpfen. Eine Liste der veralteten und neuen Identifikatoren findet man in (s. in [`src/AllOldAuthorityIdentifier.py`](https://github.com/sonar-idh/Transformer/blob/main/src/AllOldAuthorityIdentifier.py)).
 
 ### b) Entitäten aus fehlenden Tn-Datensätzen (Stand 2019-2020, Datendump 2021 hat keine Tn-Datensätze)
-Es gibt 4.185.374 Datensätze in der GND, die in unseren Daten fehlen. Es geht um Tn-Datensätze (nur Namensansetzungen). Diese Daten sind für SoNAR, so GM, nicht bedeutend, da die Datensätze nicht eine Entität (Person), sondern einen Namen diverser Entitäten (Personen) beschreiben. Somit werden keine Verknüpfungen zu diesen Entitäten hergestellt. Ihre Ids findet man in `nonEntities.txt`.
+Es gibt 4.185.374 Datensätze in der GND, die in unseren Daten fehlen. Es geht um Tn-Datensätze (nur Namensansetzungen). Diese Daten sind für SoNAR, so GM, nicht bedeutend, da die Datensätze nicht eine Entität (Person), sondern einen Namen diverser Entitäten (Personen) beschreiben. Somit werden keine Verknüpfungen zu diesen Entitäten hergestellt. Ihre Ids findet man in `src/nonEntities.txt`.
 
 ### c) Entitäten mit nicht eindeutigen veralteten Identifikatoren
 Via neo4j werden nicht eindeutige veralteten Identifikatoren gefunden, die zwei neuen Identifikatoren entsprechen. Sie werden zu `src/nonEntities.txt` hinzugefügt, weil ihre Zuordnung zu neuen Identifikatoren widersprüchlich ist.
@@ -190,7 +198,7 @@ Bei der Transformation zu GRAPHML werden Relationen zu Entitäten ohne Identifik
 
 ## Konsistenzprüfung
 
-Es findet gleiche Konsistenzprüfung wie bei MARC21 statt. Es gibt Fehlermeldungen, die in `errors...` geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
+Es findet gleiche Konsistenzprüfung wie bei MARC21 statt. Es gibt Fehlermeldungen, die in [`log`] (https://github.com/sonar-idh/Transformer/tree/main/doc) geschrieben werden, wenn folgende Inkonsistenzen gefunden werden:
 - 1. Felder mit fehlenden Identifikatoren, Namen oder Titeln;
 - 2. Veraltete Identifikatoren bei Relationen.
 
