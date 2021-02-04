@@ -125,4 +125,4 @@
 2. `SourceType` = associatedRelation, areCoAuthors, areCoEditors, affiliatedRelation, correspondedRelation, knows
 3. `SourceTypeAddInfo` = undirected, directed
 
-![abstraktes Graphmodell in neo4j](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/fec4a85be86889410b6ab1b844b466e0/graphmodell.svg)
+![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)
