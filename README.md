@@ -10,10 +10,11 @@ python trs.py
 ### FIX 
 
 - Pfad zu Ordner mit Ausgangsdaten in Terminal eingeben
+- Ausgabe, wenn Skripts ausgeführt werden, optimieren
 - Konflikt in EadTransform.py line 56 beim Einlesen des Zip-Files, so steht z.Z. da ein String statt einer Variable 'filename'
 - `nonEntities.txt` wurde nicht hochgeladen, zu groß
 - `requirements` hinzufügen
-- UML Modell erstellen, was neo4j generiert ist unübersichtlich
+- ~UML-Modell erstellen, was neo4j generiert ist unübersichtlich~
 
 
 Zu beachten, dass Pfade zu Ausgangsdaten in [`trs.py`](https://github.com/sonar-idh/Transformer/blob/main/trs.py) geändert werden müssen.
