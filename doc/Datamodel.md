@@ -121,7 +121,7 @@
  
 ## 2. Implizite Relationen (soziale Relation `SocialRelation` genannt)
 ### 2.1. Allgemeine Merkmale
-1. `Source` = Idetifikator der Quelle
+1. `Source` = Identifikator der Quelle
 2. `SourceType` = associatedRelation, areCoAuthors, areCoEditors, affiliatedRelation, correspondedRelation, knows
 3. `SourceTypeAddInfo` = undirected, directed
 ### 2.2. Detaillierte Darstellung der Merkmale je nach Regel (DRAFT)
