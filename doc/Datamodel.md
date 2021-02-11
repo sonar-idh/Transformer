@@ -121,8 +121,71 @@
  
 ## 2. Implizite Relationen (soziale Relation `SocialRelation` genannt)
 ### 2.1. Allgemeine Merkmale
-1. `Source` = computed
+1. `Source` = Idetifikator der Quelle
 2. `SourceType` = associatedRelation, areCoAuthors, areCoEditors, affiliatedRelation, correspondedRelation, knows
 3. `SourceTypeAddInfo` = undirected, directed
+### 2.2. Detaillierte Darstellung der Merkmale je nach Regel (DRAFT)
+| Nr. | Regel                                 | Quelle      | `Source` | `SourceType`              | `TypeAddInfo`           |
+|-----|---------------------------------------|-------------|----------|---------------------------|-------------------------|
+| 1   | „Folgerung“ sozialer Beziehungen      | MARC21, EAD | ID       | associatedRelation        | undirected              |
+| 2   | Co-Autoren                            | MARC21      | ID       | areCoAuthors              | undirected              |
+| 3   | Co-Herausgeber                        | MARC21      | ID       | areCoEditors              | undirected              |
+| 4   | Affiliationen                         | EAD         | ID       | affiliatedRelation        | undirected              |
+| 5   | Korrespondenzen                       | EAD         | ID       | correspondedRelation      | directed                |
+| 6   | Tagebücher                            | EAD         | ID       | knows                     | undirected ~~directed~~ |
+| 7   | Stammbücher / Stammbucheintrag, Alben | EAD         | ID       | knows                     | undirected              |
+| 8   | Protokolle                            | EAD         | ID       | associatedRelation\|knows | undirected              |
+| 9   | Archivbestände / Findbücher           | EAD         | ID       | associatedRelation\|knows | undirected              |
+
+# Datemodell
 
 ![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)
+
+# Teil III. Volltexte
+TODO
++ Link
+
+# Teil IV. Anpassung des Datenmodells
+## 1. Entitätenspezifische Bezeichnungen ändern (Version 10.07.2020)
+Entitätenspezifische Bezeichnungen der Merkmale auf allgemeine Bezeichnungen ändern. Statt `EntityUri`|`ResourceUri` Merkmal `Uri` benutzen etc (dokumentiert in [Arbeitspakete 03 > AP1 - Datenmodellierung](https://1drv.ms/x/s!AsnDx7PkKZE7h2kGMjcITS4INXGX?e=e6Pw6R));
+## 2. Koordinaten für Geographika hinzufügen (Version 10.07.2020)
+Für Entitäten `GeoName` wurde Merkmal `Coordinates` (z.B. N 52°28′00″ E 13°21′00″) hinzugefügt. Zusätzlich wurde es das Merkmal `UriGeonames` hinzugefügt, die Geographika mit dem Referenzsystem Geonames verbindet.
+## 3. Akademische Grade (Version 10.07.2020)
+Keine einheitliche Einstellung der Partner zu diesem Anpassungswunsch. Das Merkmal wurde nicht hinzugefügt (Stand 17.11.2020). 
+## 4. Gesamtpfad für Kalliope-Ressourcen hinzufügen (Version 10.07.2020, 10.12.2020)
+Die Darstellung vom Gesamtpfad für Kalliope-Ressourcen wurde als Merkmal `SourcePath` (CH-000015-0-1051777|CH-000015-0-1051786|CH-000015-0-1054519) hinzufügt. 
+## 5. Zeitintervalle trennen (Version 10.07.2020, 10.12.2020)
+Zeitintervalle wurden z.B. in zwei Merkmale `DateApproxBeginn`=„1931“ und `DateApproxEnd`=„1987“ getrennt. Einige Entitäten besitzen mehrere Zeitausdrücke, so wurde es nicht möglich, Anfang und Ende eines Datums entsprechend einzuordnen. Das Merkmal `DateOriginal` wurde wieder hinzugefügt.
+## 6. Zeitausdrücke normalisieren (Version 10.07.2020)
+Zeitausdrücke unterscheiden sich in EAD und MARC21, vgl. 1837-11-12 und 1923-06-02/1923-06-05 aus EAD, 1963-1975 und 00.03.1895- aus MARC21. Nicht normalisiert wurden solche Zeitausdrücke, die nicht nach Richtlinien MARC21, EAD zur Beschreibung der Zeitausdrücken aufgefasst wurden. Offene Intervalle wurden ggf. bei `DateApproxBeginn` bzw. `DateApproxEnd` mit „“ besetzt.
+## 7. Schlagworte für Ressourcen übernehmen (Version 10.07.2020)
+Schlagworte wurden folgend aufgenommen (s. [MARC21Codes.py](https://github.com/sonar-idh/Transformer/blob/main/src/MARC21Codes.py)):
+```
+{...'600': ['RelationToPerName', 'SubjectAddedEntry'],
+'610': ['RelationToCorpName', 'SubjectAddedEntry'],
+'611': ['RelationToMeetName', 'SubjectAddedEntry'],
+'630': ['RelationToUniTitle', 'SubjectAddedEntry'],
+'650': ['RelationToTopicTerm', 'SubjectAddedEntry'],
+'651': ['RelationToGeoName', 'SubjectAddedEntry'],
+'655': ['RelationToTopicTerm', 'GenreOrForm'],...}
+```
+Der Key deutet auf ein MARC21-Feld. Das erste Value ist ein Label für Relation, das zweite ist ein `SourceType`.
+## 8. Genderspezifische Berufe vereinen (Version 10.07.2020)
+TODO über Server
+## 9.  GND mit anderen Referenzsystemen verbinden (Version 10.07.2020)
+TODO über Server
+## 10. Angaben in `Source` bei `SocialRelations` (Version 10.12.2020)
+Statt `computed` wurde eine ID zu der Quelle hinzugefügt, woraus die Beziehung abgeleitet wurde.
+## Zettelkasten
+TODO
+
+
+# Teil V. Tippfehler
+- ~~Merkmal `DateStrictEnd` und `DatestrictEnd`~~
+- ~~`SourceTyp` und `SourceType`~~
+- immer noch `Title` statt `Name` bei EAD. Warum?
+- R6 `undirected`
+
+
+
+
