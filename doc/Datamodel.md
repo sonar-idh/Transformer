@@ -137,7 +137,7 @@
 | 8   | Protokolle                            | EAD         | ID       | associatedRelation\|knows | undirected              |
 | 9   | Archivbestände / Findbücher           | EAD         | ID       | associatedRelation\|knows | undirected              |
 
-# Datemodell
+# Datenmodell
 
 ![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)
 
