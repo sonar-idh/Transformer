@@ -123,7 +123,7 @@
 ### 2.1. Allgemeine Merkmale
 1. `Source` = Identifikator der Quelle
 2. `SourceType` = associatedRelation, areCoAuthors, areCoEditors, affiliatedRelation, correspondedRelation, knows
-3. `SourceTypeAddInfo` = undirected, directed
+3. `TypeAddInfo` = undirected, directed
 ### 2.2. Detaillierte Darstellung der Merkmale je nach Regel (DRAFT)
 | Nr. | Regel                                 | Quelle      | `Source` | `SourceType`              | `TypeAddInfo`           |
 |-----|---------------------------------------|-------------|----------|---------------------------|-------------------------|
@@ -166,8 +166,7 @@ Schlagworte wurden folgend aufgenommen (s. [MARC21Codes.py](https://github.com/s
 '611': ['RelationToMeetName', 'SubjectAddedEntry'],
 '630': ['RelationToUniTitle', 'SubjectAddedEntry'],
 '650': ['RelationToTopicTerm', 'SubjectAddedEntry'],
-'651': ['RelationToGeoName', 'SubjectAddedEntry'],
-'655': ['RelationToTopicTerm', 'GenreOrForm'],...}
+'651': ['RelationToGeoName', 'SubjectAddedEntry'],...}
 ```
 Der Key deutet auf ein MARC21-Feld. Das erste Value ist ein Label für Relation, das zweite ist ein `SourceType`.
 ## 8. Genderspezifische Berufe vereinen (Version 10.07.2020)
