@@ -39,13 +39,13 @@ Zu beachten, dass Pfade zu Ausgangsdaten in [`trs.py`](https://github.com/sonar-
  - `outputFormat="graphml"` ist nur in Kombination mit `dataSelection=True` möglich
 
 **Transformierte Daten werden in [`data`](https://github.com/sonar-idh/Transformer/tree/main/data) gespeichert**
-## Duplikate aus der GND und ZDB
+## Duplikate aus der DNB und ZDB
 
 ### Liste der gefundenen Duplikate s. in [`src/dublesBibliographicRecords.txt`](https://github.com/sonar-idh/Transformer/blob/main/src/dublesBibliographicRecords.txt)
 
  **Gilt für Transformation zu GRAPHML**
 
-Gleiche Ressourcen (bezüglich Identifikatoren), die in der DNB und ZDB vorkommen, sind zusammen verbunden.
+Gleiche Ressourcen (bezüglich Identifikatoren), die in der DNB und ZDB vorkommen, sind gefiltert und als eine Ressource dargestellt (s. Dubletten aus der DNB und ZDB, Stand 2019). Zu beachten, dass Dubletten aus der DNB und SBB nicht ausgefiltert wurden, weil diese mit verschiedenen internen Identifikatoren (DE-101 für DNB und DE-599 für SBB) versehen sind.
 
 ![Stand Ende 2019/Anfang 2020](https://trello-attachments.s3.amazonaws.com/5e3c13bb607286561cc56f57/928x823/f3c06046ede30c6b3d679892fbc8e639/Anmerkung_2020-02-06_162043.png?raw=true)
 
