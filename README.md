@@ -12,7 +12,7 @@ python trs.py
 - Pfad zu Ordner mit Ausgangsdaten in Terminal eingeben
 - Ausgabe, wenn Skripts ausgeführt werden, optimieren
 - Konflikt in EadTransform.py line 56 beim Einlesen des Zip-Files, so steht z.Z. da ein String statt einer Variable 'filename'
-- `nonEntities.txt` wurde nicht hochgeladen, zu groß
+- `nonEntities.txt` wurde nicht hochgeladen, zu groß => Download von onedrive [https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N](https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N)
 - `requirements` hinzufügen
 - ~UML-Modell erstellen, was neo4j generiert ist unübersichtlich~
 
