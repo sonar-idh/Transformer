@@ -301,10 +301,11 @@ class EAD:
 
         if len(associatedRelation) > 1:
             for onePart in associatedRelation:
-                if onePart['TypeAddInfo'] in ['dokumentiert', 'behandelt', 'nicht-definiert']:
+                # es gibt ggf. nicht normierte Beschreibungen, muss man manuell prüfen
+                if onePart['TypeAddInfo'] in ['dokumentiert', 'Dokumentiert', 'behandelt', 'Behandelt', 'nicht-definiert', 'Nicht-definiert']:
                     continue
                 for otherPart in associatedRelation:
-                    if otherPart['TypeAddInfo'] in ['dokumentiert', 'behandelt', 'nicht-definiert']:
+                    if otherPart['TypeAddInfo'] in ['dokumentiert', 'Dokumentiert', 'behandelt', 'Behandelt', 'nicht-definiert', 'Nicht-definiert']:
                         continue
                     if onePart['Id'] != otherPart['Id']:
                         socialRelationList.append({'SourceId': onePart['Id'], 'TargetId': otherPart['Id'], 'RelationType':'SocialRelation', 'SourceType':'associatedRelation', 'Source': NodeId, 'TypeAddInfo':'undirected'})
