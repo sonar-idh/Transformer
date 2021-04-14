@@ -4,7 +4,7 @@ import os
 import zipfile
 import xml.etree.ElementTree as etree
 import src.MARC21Codes as codes
-import src.OldAuthorityIdentifier as oldIds
+import src.AllOldAuthorityIdentifier as oldIds
 from src.ValidIsilTerms import val_isils
 
 class EAD:
