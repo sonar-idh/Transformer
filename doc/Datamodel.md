@@ -148,7 +148,9 @@
 
 # Teil III. Volltexte
 TODO
+
 Onedrive Dokumentation: https://1drv.ms/w/s!AsnDx7PkKZE7iGHyfxYvQnXUC-5z?e=K0OwXs 
+
 Dokumentation auf GitHub folgt in Kürze (Stand 19.07.2021)
 
 # Teil IV. Anpassung des Datenmodells
