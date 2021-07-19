@@ -18,6 +18,7 @@
 1. Identifikator (ISIL DE-588) `Id`
 1. gelöschte Identifikatoren `OldId`
 1. URI `Uri`
+1. Weiterer Identifikator `id` Anmerkung: Nicht immer vorhanden, sollte Identifikatoren sollten im nächsten Datenmodell überarbeitet werden. Da `id` nicht immer vorhanden, besser `Id` wählen für Abfragen.
 1. Entitätentyp ([gndgen](https://wiki.dnb.de/display/ILTIS/Informationsseite+zur+GND?preview=/90411323/149487812/entitaetenSatztypen.pdf)) `GenType`
 1. Entitätentyp ([gndspec](https://wiki.dnb.de/display/ILTIS/Informationsseite+zur+GND?preview=/90411323/148701892/entitaetenCodes.pdf)) `SpecType`
 1. Entitätenname `Name`
@@ -57,7 +58,7 @@
    - insgesamt vier Merkmale für das Erscheinungsdatum möglich (sollte für das nächste Datenmodell anders gelöst werden):
 	   - `DateApproxBegin`
 	   - `DateApproxEnd`
-	   - `DateStrictBegin` // nur ein Werk besitzt dieses Merkmal
+	   - `DateStrictBegin` Anmerkung: Nur ein Werk besitzt dieses Merkmal
 	   - `DateOriginal`
    - Medium	`Medium`
    - Sprache eines Werkes	`Lang`
