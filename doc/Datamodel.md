@@ -148,7 +148,8 @@
 
 # Teil III. Volltexte
 TODO
-+ Link
+Onedrive Dokumentation: https://1drv.ms/w/s!AsnDx7PkKZE7iGHyfxYvQnXUC-5z?e=K0OwXs 
+Dokumentation auf GitHub folgt in Kürze (Stand 19.07.2021)
 
 # Teil IV. Anpassung des Datenmodells
 ## 1. Entitätenspezifische Bezeichnungen ändern (Version 10.07.2020)
@@ -181,8 +182,9 @@ TODO über Server
 ## 10. Angaben in `Source` bei `SocialRelations` (Version 10.12.2020)
 Statt `computed` wurde eine ID zu der Quelle hinzugefügt, woraus die Beziehung abgeleitet wurde.
 ## Zettelkasten
-TODO
+Gelöst durch folgende Änderung:
 
+Die Liste der Rollenattribute wurde erweitert: Wenn "dokumentiert", "behandelt", "nicht-definiert", "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft" vorkommt, wird keine Beziehung erstellt. 
 
 # Teil V. Tippfehler
 - ~~Merkmal `DateStrictEnd` und `DatestrictEnd`~~
