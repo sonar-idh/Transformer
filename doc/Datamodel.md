@@ -54,7 +54,11 @@
 #### 1.2.4. Werke `UniTitle`
    - Beachte: Titel	`Name`
    - Verfasser/Urheber	`Creator`
-   - Erscheinungsjahr	`Date`
+   - insgesamt vier Merkmale für das Erscheinungsdatum möglich (sollte für das nächste Datenmodell anders gelöst werden):
+	   - `DateApproxBegin`
+	   - `DateApproxEnd`
+	   - `DateStrictBegin` // nur ein Werk besitzt dieses Merkmal
+	   - `DateOriginal`
    - Medium	`Medium`
    - Sprache eines Werkes	`Lang`
 #### 1.2.5. Sachbegriffe	`TopicTerm`
