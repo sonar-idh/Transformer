@@ -9,7 +9,7 @@ from src.ValidIsilTerms import val_isils
 
         
 class MARC21:
-    """Class für Transormation der daten aus MARC21"""
+    """Class für Transformation der Daten aus MARC21"""
 
     def __init__(self, filecontent,
                  dataSelection=False,
@@ -468,19 +468,20 @@ class MARC21:
             if self.DataType == "Authority": self.chronTerms.write(chronTerms)
 
         # Soziale Relationen extrahieren
-        socialRelationList = self.extractSocialRelations(selectedData)
-        for relation in socialRelationList:
-            source = self.checkId(relation["SourceId"], relation["RelationType"])
-            target = self.checkId(relation["TargetId"], relation["RelationType"])
-            if source != '' and target != '':
-                # Relation initialisieren
-                self.gedges.write('<edge id="From' + source + 'To' + target + '" source="' + source + 
-                                  '" target="' + target + '" label="' + relation["RelationType"] + '"><data key="label">' + relation["RelationType"] + '</data>')
-                # Attribute für Relation transformieren
-                for key in relation:
-                    if key not in ["RelationType", "SourceId", "TargetId"] and relation[key] != '':
-                        self.gedges.write('<data key="' + key + '">' + relation[key] + '</data>')
-                self.gedges.write('</edge>\n')
+        if self.DataType == "Bibliographic": # Zeile durch Melina ergänzt
+            socialRelationList = self.extractSocialRelations(selectedData)
+            for relation in socialRelationList:
+                source = self.checkId(relation["SourceId"], relation["RelationType"])
+                target = self.checkId(relation["TargetId"], relation["RelationType"])
+                if source != '' and target != '':
+                    # Relation initialisieren
+                    self.gedges.write('<edge id="From' + source + 'To' + target + '" source="' + source + 
+                                      '" target="' + target + '" label="' + relation["RelationType"] + '"><data key="label">' + relation["RelationType"] + '</data>')
+                    # Attribute für Relation transformieren
+                    for key in relation:
+                        if key not in ["RelationType", "SourceId", "TargetId"] and relation[key] != '':
+                            self.gedges.write('<data key="' + key + '">' + relation[key] + '</data>')
+                    self.gedges.write('</edge>\n')
             
             
 
