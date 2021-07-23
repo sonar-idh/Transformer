@@ -1,11 +1,12 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 import os
+import json
 import zipfile
 import xml.etree.ElementTree as etree
-import src.MARC21Codes as codes
-import src.AllOldAuthorityIdentifier as oldIds
-from src.ValidIsilTerms import val_isils
+from src import MARC21Codes as codes
+from src import AllOldAuthorityIdentifier as oldIds
+
 
 class EAD:
     def __init__(self, dataSelection=True, outputFormat = 'graphml', filename = ''):
@@ -38,7 +39,7 @@ class EAD:
         self.RelationTypeList = codes.relationTypeListBib
         self.RelationBibTypeList = codes.relationBibTypeList
         self.OldIdsList = oldIds.EntityOldIds
-        self.val_isils = val_isils
+        self.val_isils = open('src/isils.json', 'r', encoding="utf8")
         self.nonIdsList = self.readNonIds()
         
         self.nodes = 0
@@ -53,7 +54,7 @@ class EAD:
         
         ##################################################################################################################
         # FIX: mit Var filename kam zu Fehler, dass es kein zipfile ist. Wurde durch string(=path) ersetzt
-        zfile = zipfile.ZipFile('C:/Users/elle01/Documents/SoNAR/sonar/Metadaten/KPE_EADXML_20190701.zip', mode='r')
+        zfile = zipfile.ZipFile('Datendump/KPE_EADXML_20190701.zip', mode='r')
 
         for name in zfile.namelist():
 
@@ -301,11 +302,10 @@ class EAD:
 
         if len(associatedRelation) > 1:
             for onePart in associatedRelation:
-                # es gibt ggf. nicht normierte Beschreibungen, muss man manuell prüfen
-                if onePart['TypeAddInfo'] in ['dokumentiert', 'Dokumentiert', 'behandelt', 'Behandelt', 'nicht-definiert', 'Nicht-definiert']:
+                if onePart['TypeAddInfo'] in ["dokumentiert", "behandelt", "nicht-definiert", "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft"]:
                     continue
                 for otherPart in associatedRelation:
-                    if otherPart['TypeAddInfo'] in ['dokumentiert', 'Dokumentiert', 'behandelt', 'Behandelt', 'nicht-definiert', 'Nicht-definiert']:
+                    if otherPart['TypeAddInfo'] in ["dokumentiert", "behandelt", "nicht-definiert", "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft"]:
                         continue
                     if onePart['Id'] != otherPart['Id']:
                         socialRelationList.append({'SourceId': onePart['Id'], 'TargetId': otherPart['Id'], 'RelationType':'SocialRelation', 'SourceType':'associatedRelation', 'Source': NodeId, 'TypeAddInfo':'undirected'})
@@ -335,8 +335,8 @@ class EAD:
         # R5 Korrespondenz
         correspondedRelation_uni = []
         correspondedRelation_bi = []
-        if selectedData['Genre'] == "Briefe": correspondedRelation_uni = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Adressat', 'Verfasser']]
-        if selectedData['Genre'] == "Briefwechsel": correspondedRelation_bi = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Adressat', 'Verfasser', 'Korrespondenzpartner']]
+        if "Briefe" in selectedData['Genre'] or "Brief" in selectedData["Genre"]: correspondedRelation_uni = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Adressat', 'Verfasser']]
+        if "Briefwechsel" in selectedData['Genre']: correspondedRelation_bi = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Adressat', 'Verfasser', 'Korrespondenzpartner']]
 
         if len(correspondedRelation_uni) > 1:
             for onePart in correspondedRelation_uni:
@@ -356,7 +356,23 @@ class EAD:
                             socialRelationList.append({'SourceId': onePart['Id'], 'TargetId': otherPart['Id'], 'RelationType':'SocialRelation', 'SourceType':'correspondedRelation', 'Source': NodeId, 'TypeAddInfo':'directed'})
                             socialRelationList.append({'SourceId': otherPart['Id'],  'TargetId': onePart['Id'], 'RelationType':'SocialRelation', 'SourceType':'correspondedRelation', 'Source': NodeId, 'TypeAddInfo':'directed'})
                                     
-        # R6 Tagebücher
+                            
+        ## Ergänzen: knows Relation zwischen Verfasser und erwähnte/ behandelte Person/ Körperschaft 
+        # in einem Brief
+        # folgender Teil ist neuer Code, muss getestet werden
+        knows_briefe = []
+        behandelt = ["behandelt", "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft"]
+        if "Briefe" in selectedData["Genre"] or "Briefwechsel" in selectedData["Genre"] or "Brief" in selectedData["Genre"]:
+            knows_briefe = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Verfasser', 'behandelt', "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft"]]
+        if len(knows_briefe) > 1:
+            for onePart in knows_briefe:
+                if onePart['TypeAddInfo'] == 'Verfasser':
+                    for otherPart in knows_briefe:
+                        if otherPart['TypeAddInfo'] in behandelt:
+                            if onePart['Id'] != otherPart['Id']:
+                                socialRelationList.append({'SourceId': onePart['Id'], 'TargetId': otherPart['Id'], 'RelationType':'SocialRelation', 'SourceType':'knows', 'Source': NodeId, 'TypeAddInfo':'directed'})
+                            
+       # R6 Tagebücher
         knows_onePart = []
         knows_otherPart = []
         if "Tagebuch" in selectedData['Genre']: 
@@ -397,7 +413,8 @@ class EAD:
                         
         # R9 Archivbestände / Findbücher 
         associatedRelation = []
-        if selectedData['SourcePath'] != "root" and self.bestandsbildner != [] and selectedData['Genre'] != "Sammlung": associatedRelation = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Adressat', 'Verfasser', 'Schreiber']]
+        # folgende Zeile verändert durch Melina; falls fehlerhaft, in Github alte Zeile übernehmen
+        if selectedData['SourcePath'] != "root" and self.bestandsbildner != [] and not "Sammlung" in selectedData['Genre']: associatedRelation = [i for i in selectedData['RelationList'] if i['RelationType'] in ['RelationToPerName', 'RelationToCorpName'] and i['TypeAddInfo'] in ['Adressat', 'Verfasser', 'Schreiber']]
         for onePart in associatedRelation:
             for otherPart in self.bestandsbildner:
                 if onePart['Id'] != otherPart:
@@ -558,4 +575,5 @@ class EAD:
     def normalizeText(self, text):
         text = text.strip().replace('\n', ' ').replace('\r', ' ')
         return text
+
 
