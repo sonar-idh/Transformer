@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+"""
+@author: melina
+"""
 
 import requests
 from enrich.queries import per_wd
@@ -6,9 +9,18 @@ import re
 import time
 from enrich.sonar_server import Neo4jConnection
 
-
-
 def wd_id_to_gnd(wd_id):
+    """
+    Searches whether the Wikidata entry provides
+    a linked GND ID. 
+    ---------
+    wd_id : str
+        Wikidata ID of entity.
+        
+    Returns
+    -----------
+    str.
+    """
     url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
     try:
         time.sleep(2.0)
@@ -25,6 +37,17 @@ def wd_id_to_gnd(wd_id):
 #print(wd_id_to_gnd('Q5879'))
 
 def gnd_to_wd_id(gnd_id):
+    """
+    Searches for a Wikidata entry which contains
+    the provided GND ID. Outputs the Wikidata ID (if found).
+    ---------
+    gnd_id : str
+        GND ID of entity.
+        
+    Returns
+    -----------
+    str.
+    """
     url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
     try:
         time.sleep(2.0)
@@ -41,6 +64,18 @@ def gnd_to_wd_id(gnd_id):
 #print(gnd_to_wd_id('118540238'))
 
 def get_wd_result(data, query):
+    """
+    Transforms Wikidata query result
+    ---------
+    data : list
+        Result of Wikidata query
+    query : str
+        Query which was used.
+        
+    Returns
+    -----------
+    str.
+    """
     result = []
     date_list = ["Todestag", "Geburtsdatum"]
     query_var= re.findall("SELECT \?[a-zA-Z]*\s", query)
@@ -60,6 +95,19 @@ def get_wd_result(data, query):
         return wd_id[0]
         
 def search_doublette(gnd_id, ent_type):
+    """
+    Searches whether SoNAR contains the entity by searching
+    for an entity with the provided GND ID and the entity
+    type (LOC | PER | ORG).
+    ---------
+    gnd_id : str
+        GND ID of entity.
+    ent_type : str
+        Entity type.
+    Returns
+    -----------
+    str.
+    """    
     try:
         if ent_type == "LOC" or "B-LOC" or "I-LOC":
             ent_type = "GeoName OR n:CorpName"
@@ -78,21 +126,26 @@ def search_doublette(gnd_id, ent_type):
     except:
         new_result = "-"
         return str(new_result)
-    
-def add_label(wd_id):
-    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
-    try:
-        label = wd_queries['Label'] % (wd_id)
-        time.sleep(2.0)
-        label_data = requests.get(url, params={'query': label, 'format': 'json'}).json()
-        label_result = get_wd_result(label_data, label)
-        return label_result            
-    except:
-        label_result = "-"
-        return label_result 
 
 
 def enrich_entity(wd_id, ent_type):
+    """
+    Searches for information (selected set of attributes)
+    on Wikidata to enrich entities in SoNAR which do not have
+    a GND representation. Currently only enriches entities of
+    type PER
+    ---------
+    wd_id : str
+        Wikidata ID of entity.
+    ent_type : str
+        Type of entity. Currently only PER supported, can be extended if
+        desired.
+        
+    Returns
+    -----------
+    Dict.
+    
+    """
     url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
     if ent_type == "PER" or "B-PER" or "I-PER":
         properties = {}
@@ -188,12 +241,7 @@ def enrich_entity(wd_id, ent_type):
             properties["WdPlaceOfBirthId"] = "-" 
             
         return properties
-#            death_data =
-#            time.sleep(2.0)
-#            gender_data =
 
-#            data = requests.get(url, params={query, 'format': 'json'}).json()
-#        elif ent_type == "CorpOCR":
 def normalize_data(indata, prop):
     """
     Transforms Wikidata results into the neccessary format
@@ -203,6 +251,11 @@ def normalize_data(indata, prop):
         result of query
     prop : str
         type of property (birthdate, deathdate etc.)
+    
+    Returns
+    ---------
+    list.
+    
     """
     if prop == "birthdate" or "deathdate":
         result = indata.strip("T00:00:00Z")
@@ -210,10 +263,7 @@ def normalize_data(indata, prop):
         return result
             
 #if __name__ == '__main__':
-    #search_per_props("Q5879", "118584596") # für Namen nicht name in native language nehmen, sondern label bei Tabelle
 #    print(enrich_entity("Q5879", "PER"))
 #    print(enrich_entity("Q70532", "PER"))
 #     props = enrich_entity("Q567", "PER")
-#     for prop in props:
-#         print(prop)
-#         print(props[prop])
+
