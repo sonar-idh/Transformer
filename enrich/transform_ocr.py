@@ -3,8 +3,7 @@
 @author: melina
 """
 
-from enrich.sonar_server import Neo4jConnection
-from enrich.enrich_data import search_doublette, wd_id_to_gnd, gnd_to_wd_id, enrich_entity
+from enrich.enrich_data import search_doublette, wd_id_to_gnd, enrich_entity
 from os import listdir
 from os.path import isfile, join
 import pandas as pd
@@ -12,15 +11,17 @@ import json
 import re
 import fire
 
-def process_tsv(inpath):
+def process_tsv(inpath, outfile):
     """
     Proceses the ocr .tsv files and
     returns the file 'entities-dict.json'
     ---------
     
-    in_path : str
+    inpath : str
         Path to directory which contains
         the .tsv files.
+    outfile : str
+        entities-dict.json
         
     Returns
     -----------
@@ -99,9 +100,9 @@ def process_tsv(inpath):
                 multient = False
             print(entities)
         results[x]= {"meta": meta, "entities": entities}
-        json.dump(results, open('D:/SoNAR/Transformers/data/entities-dict.json', 'w', encoding='utf8'), indent=4)
+        json.dump(results, open(outfile, 'w', encoding='utf8'), indent=4)
 
-def write_enriched_graphml(result_file, output_format): 
+def write_enriched_graphml(result_file, path_to_ocr, output_format): 
     """
     Use to integrate ocr files. Writes enriched .graphml files . 
     ---------
@@ -116,10 +117,10 @@ def write_enriched_graphml(result_file, output_format):
     """
     with open(result_file, 'r') as inp:
         if output_format ==  'graphml':
-            doc_nodes = open('D:/SoNAR/Transformers/data/ocr/OCRDocumentNodes.graphml', 'w', encoding="utf8")
-            wiki_nodes = open('D:/SoNAR/Transformers/data/ocr/WikiNodes.graphml', 'w', encoding="utf8")
-            same_edges = open('D:/SoNAR/Transformers/data/ocr/SameAsEdges.graphml', 'w', encoding="utf8")
-            contains_edges = open('D:/SoNAR/Transformers/data/ocr/DocContainsEntEdges.graphml', 'w', encoding="utf8")
+            doc_nodes = open(path_to_ocr +'OCRDocumentNodes.graphml', 'w', encoding="utf8")
+            wiki_nodes = open(path_to_ocr +'WikiNodes.graphml', 'w', encoding="utf8")
+            same_edges = open(path_to_ocr +'SameAsEdges.graphml', 'w', encoding="utf8")
+            contains_edges = open(path_to_ocr +'DocContainsEntEdges.graphml', 'w', encoding="utf8")
             docs = json.load(inp)
             doc_node_count = 0
             wiki_node_count = 0
@@ -268,5 +269,5 @@ def write_enriched_graphml(result_file, output_format):
                             
 if __name__=='__main__': 
     fire.Fire()
-#process_tsv('D:/SoNAR/Enrich/batch3/')
-#write_enriched_graphml('D:/SoNAR/Transformers/data/entities-dict.json', 'graphml')
+#    process_tsv('D:/SoNAR/Enrich/batch3/', 'D:/SoNAR/Transformers/data/ent-dict.json')
+#    write_enriched_graphml('D:/SoNAR/Transformers/data/ent-dict.json', 'D:/SoNAR/Transformers/data/ocr/', 'graphml')
