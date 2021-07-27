@@ -88,7 +88,7 @@ if __name__=='__main__':
     
     gr=EAD(filename = 'Datendump/KPE_EADXML_20190701.zip')
     
-    def integrate_ocr(tsv_files, out_file, ocr_data_path, all_data_path):
+    def integrate_ocr(tsv_files, merged_file, ocr_data_path, all_data_path):
         """
         Use to process OCR files and merge all files
         into one .graphml file.
@@ -98,7 +98,7 @@ if __name__=='__main__':
         
         tsv_files : str
             Path to directory which contains ocr files in tsv format 
-        out_file : str
+        merged_file : str
             Name and path of output file, name needs to end in '.graphml'
         ocr_data_path : str
             Name of directory which contains the 
@@ -112,8 +112,9 @@ if __name__=='__main__':
         -------
         None.
         """
-        process_tsv(tsv_files)
-        write_enriched_graphml("data/entities-dict.json", "graphml")
-        merge_all_files(out_file, ocr_data_path, all_data_path)
+        process_tsv(tsv_files, 'data/entities-dict.json')
+        write_enriched_graphml("data/entities-dict.json", "data/ocr/", "graphml")
+        merge_all_files(merged_file, ocr_data_path, all_data_path)
         
+    #integrate_ocr('D:/SoNAR/Enrich/batch3/', 'data/merged/v_27072021.graphml', 'D:/SoNAR/Transformers/data/ocr/', 'D:/SoNAR/Transformers/data/graphml/' )
     fire.Fire()
