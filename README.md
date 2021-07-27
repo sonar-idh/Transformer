@@ -1,24 +1,78 @@
 
 # Transformer
 
+## Transformation aller Daten (ohne OCR + ohne Zusammenführen)
+
 Um alle Daten (ausgenommen OCR Daten) zu transformieren, im Terminal folgendes ausführen:
 
 ```
 python trs.py
 ```
-Um alle Daten inklusive OCR Daten zu transformieren und anschließend zusammen mit allen Daten in eine .graphml Datei zusammenzuführen, im Terminal folgendes ausführen:
+
+Achtung: Vor dem Ausführen müssen die Pfade in trs.py zu den Datendumps angepasst werden!
+
+## Transformation aller Daten (mit OCR + Zusammenführen aller Dateien)
+Um alle Daten inklusive OCR Daten zu transformieren und anschließend zusammen mit allen Daten in eine GRAPHML Datei zusammenzuführen, im Terminal folgendes ausführen:
 
 
 ```
 python trs.py integrate_ocr ocr_tsv_dir/ merged/output_filename.graphml ocr_data_dir/ all_data_dir/
 ```
 
-Arguments for the `integrate_ocr` function: 
-- ocr_tsv_dir/: Directory which contains the OCR tsv files
-- merged/output_filename.graphml: Name and path of final merged .graphml ouptut file. This file will contain the entire SoNAR data.
-- ocr_data_dir/:  Directory which contains only the OCR .graphml files (DocContainsEntEdges.graphml, OCRDocumentNodes.graphml, SameAsEdges.graphml, WikiNodes.graphml)
-- all_data_dir/: Directory which contains all other .graphml files except the OCR .graphml files
+Achtung: Vor dem Ausführen müssen die Pfade in trs.py zu den Datendumps angepasst werden!
 
+Argumente der `integrate_ocr` Funktion: 
+- ocr_tsv_dir/: Ordner, welcher die OCR Daten im TSV Format enthält
+- merged/output_filename.graphml: Name und Ort der finalen zusammengeführten GRAPHML Datei. Diese Datei enthält alle SoNAR Daten.
+- ocr_data_dir/:  Ordner, welcher nur die OCR .graphml Dateien enthält (DocContainsEntEdges.graphml, OCRDocumentNodes.graphml, SameAsEdges.graphml, WikiNodes.graphml)
+- all_data_dir/: Ordner, welcher alle anderen .graphml Dateien enthält, außer die OCR GRAPHML Dateien.
+
+## Nutzen einzelner Funktionen
+### OCR: Transformieren der OCR TSV Dateien zu JSON 
+
+
+```
+cd enrich
+python transform_ocr.py process_tsv path_to_tsv/ path_to/entities-dict.json
+```
+Argumente der `process_tsv` Funktion: 
+- path_to_tsv: Ordner, welcher die OCR Daten im TSV Format enthält
+- path_to/entities-dict.json: Name und Ort der JSON Datei. 
+
+###  OCR: Transformation von JSON zu GRAPHML
+
+
+```
+cd enrich
+python transform_ocr.py write_enriched_graphml path_to/entities-dict.json path_to_ocr_graphml/ out_format
+```
+Argumente der `write_enriched_graphml` Funktion: 
+- path_to/entities-dict.json: Name und Ort der JSON Datei. 
+- path_to_ocr_graphml/: Ort, an dem die GRAPHML OCR Dateien gespeichert werden sollen
+- out_format : Momentan nur "graphml" als Wert möglich
+
+###  Zusammenführen: Alle Dateien, außer OCR
+
+```
+cd enrich
+python merge.py merge_except_ocr path_to/merged_filenname.graphml path_to_graphml_files/
+```
+
+Argumente der `merge_except_ocr` Funktion: 
+- üath_to/merged_filenname.graphml: Name und Ort der zu erstellenden Datei
+- path_to_graphml_files/: Ort der GRAPHML Dateien 
+
+###  Zusammenführen: Alle Dateien inklusive OCR
+
+```
+cd enrich
+python merge.py merge_all_files path_to/merged_filenname.graphml path_to_ocr_graphml_files/ path_to_other_graphml_files/
+```
+
+Argumente der `merge_except_ocr` Funktion: 
+- path_to/merged_filenname.graphml: Name und Ort der zu erstellenden Datei
+- path_to_ocr_graphml_files/: Ort der OCR GRAPHML Dateien
+- path_to_other_graphml_files/: Ort der anderen GRAPHML Dateien 
 
 ### FIX 
 
