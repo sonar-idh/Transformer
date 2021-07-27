@@ -1,18 +1,31 @@
 
 # Transformer
 
-Um alle daten zu transformieren im Terminal folgendes ausführen:
+Um alle Daten (ausgenommen OCR Daten) zu transformieren, im Terminal folgendes ausführen:
 
 ```
 python trs.py
 ```
+Um alle Daten inklusive OCR Daten zu transformieren, im Terminal folgendes ausführen:
+
+
+```
+python trs.py integrate_ocr ocr_tsv_dir/ merged/output_filename.graphml ocr_data_dir/ all_data_dir/
+```
+
+Arguments for the `integrate_ocr` function: 
+- ocr_tsv_dir: Directory which contains the OCR tsv files
+- merged/output_filename.graphml: Name and path of final merged .graphml ouptut file. This file will contain the entire SoNAR data.
+- ocr_data_dir/:  Directory which contains only the OCR .graphml files (DocContainsEntEdges.graphml, OCRDocumentNodes.graphml, SameAsEdges.graphml, WikiNodes.graphml)
+- all_data_dir/: Directory which contains all other .graphml files except the OCR .graphml files
+
 
 ### FIX 
 
 - Pfad zu Ordner mit Ausgangsdaten in Terminal eingeben
 - Ausgabe, wenn Skripts ausgeführt werden, optimieren
 - Konflikt in EadTransform.py line 56 beim Einlesen des Zip-Files, so steht z.Z. da ein String statt einer Variable 'filename'
-- `nonEntities.txt` wurde nicht hochgeladen, zu groß => Download von onedrive [https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N](https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N)
+- `nonEntities.txt` auch auf dem Onedrive zu finden [https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N](https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N). Wurde mittlerweile aber auch auf GitHub hochgeladen
 - `requirements` hinzufügen
 - ~UML-Modell erstellen, was neo4j generiert ist unübersichtlich~
 
