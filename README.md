@@ -6,7 +6,7 @@ Um alle Daten (ausgenommen OCR Daten) zu transformieren, im Terminal folgendes a
 ```
 python trs.py
 ```
-Um alle Daten inklusive OCR Daten zu transformieren, im Terminal folgendes ausführen:
+Um alle Daten inklusive OCR Daten zu transformieren und anschließend zusammen mit allen Daten in eine .graphml Datei zusammenzuführen, im Terminal folgendes ausführen:
 
 
 ```
@@ -14,7 +14,7 @@ python trs.py integrate_ocr ocr_tsv_dir/ merged/output_filename.graphml ocr_data
 ```
 
 Arguments for the `integrate_ocr` function: 
-- ocr_tsv_dir: Directory which contains the OCR tsv files
+- ocr_tsv_dir/: Directory which contains the OCR tsv files
 - merged/output_filename.graphml: Name and path of final merged .graphml ouptut file. This file will contain the entire SoNAR data.
 - ocr_data_dir/:  Directory which contains only the OCR .graphml files (DocContainsEntEdges.graphml, OCRDocumentNodes.graphml, SameAsEdges.graphml, WikiNodes.graphml)
 - all_data_dir/: Directory which contains all other .graphml files except the OCR .graphml files
