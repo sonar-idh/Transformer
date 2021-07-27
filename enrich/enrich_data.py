@@ -8,6 +8,7 @@ from enrich.queries import per_wd
 import re
 import time
 from enrich.sonar_server import Neo4jConnection
+import fire
 
 def wd_id_to_gnd(wd_id):
     """
@@ -262,7 +263,8 @@ def normalize_data(indata, prop):
         result = result.split("-") # format: yyyy-mm-dd
         return result
             
-#if __name__ == '__main__':
+if __name__ == '__main__':
+    fire.Fire()
 #    print(enrich_entity("Q5879", "PER"))
 #    print(enrich_entity("Q70532", "PER"))
 #     props = enrich_entity("Q567", "PER")
