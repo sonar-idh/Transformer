@@ -74,7 +74,7 @@ Argumente der `merge_except_ocr` Funktion:
 - path_to_ocr_graphml_files/: Ort der OCR GRAPHML Dateien
 - path_to_other_graphml_files/: Ort der anderen GRAPHML Dateien 
 
-### FIX 
+## FIX 
 
 - Pfad zu Ordner mit Ausgangsdaten in Terminal eingeben
 - Ausgabe, wenn Skripts ausgeführt werden, optimieren
@@ -86,7 +86,7 @@ Argumente der `merge_except_ocr` Funktion:
 
 Zu beachten, dass Pfade zu Ausgangsdaten in [`trs.py`](https://github.com/sonar-idh/Transformer/blob/main/trs.py) geändert werden müssen.
 
-### Weitere Informationen:
+## Weitere Informationen:
 - [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
 - [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
 
