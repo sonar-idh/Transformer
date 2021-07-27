@@ -10,6 +10,7 @@ from os.path import isfile, join
 import pandas as pd
 import json
 import re
+import fire
 
 def process_tsv(inpath):
     """
@@ -265,5 +266,7 @@ def write_enriched_graphml(result_file, output_format):
                             contains_edges.write('</edge>\n')
                             contains_edges_count += 1
                             
+if __name__=='__main__': 
+    fire.Fire()
 #process_tsv('D:/SoNAR/Enrich/batch3/')
 #write_enriched_graphml('D:/SoNAR/Transformers/data/entities-dict.json', 'graphml')
