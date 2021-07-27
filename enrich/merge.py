@@ -9,7 +9,7 @@ import fire
 
 def merge_ocr_files(outfile, ocr_data_path):
     """
-    WORKS ONLY FOR THE FIRST FILE. GND ENTITIES HAVE BEEN ADDED
+    WORKS ONLY FOR THE FIRST FILE OF THE OCR BATCH3. GND ENTITIES HAVE BEEN ADDED
     MANUALLY.
     
     Merges all ocr files into one graphml file.
@@ -236,6 +236,84 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
                 out.write(line)
             out.write("""</graph>
 </graphml>""")
+            
+def merge_except_ocr(outfile, all_data_path):
+    """
+    Merges all files into one graphml file.
+    ---------
+    outfile : str
+        Name of output file. Needs to end in .graphml .
+    all_data_path : str
+        Name of directory which contains all .graphml
+        files (except the ocr .graphml files)
+        
+    Returns
+    -----------
+    None.
+    """
+    allfiles = [f for f in listdir(all_data_path) if isfile(join(all_data_path, f))]
+    with open(outfile, 'w', encoding='utf8') as out:
+        out.write("""<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<key id="id" for="node" attr.name="id" attr.type="string"/>
+<key id="Id" for="node" attr.name="Id" attr.type="string"/>
+<key id="OldId" for="node" attr.name="OldId" attr.type="string"/>
+<key id="Uri" for="node" attr.name="Uri" attr.type="string"/>
+<key id="GenType" for="node" attr.name="GenType" attr.type="string"/>
+<key id="SpecType" for="node" attr.name="SpecType" attr.type="string"/>
+<key id="Name" for="node" attr.name="Name" attr.type="string"/>
+<key id="VariantName" for="node" attr.name="VariantName" attr.type="string"/>
+<key id="Gender" for="node" attr.name="Gender" attr.type="string"/>
+<key id="DateOriginal" for="node" attr.name="DateOriginal" attr.type="string"/>
+<key id="DateApproxOriginal" for="node" attr.name="DateApproxOriginal" attr.type="string"/>
+<key id="DateApproxBegin" for="node" attr.name="DateApproxBegin" attr.type="string"/>
+<key id="DateApproxEnd" for="node" attr.name="DateApproxEnd" attr.type="string"/>
+<key id="DateStrictOriginal" for="node" attr.name="DateStrictOriginal" attr.type="string"/>
+<key id="DateStrictBegin" for="node" attr.name="DateStrictBegin" attr.type="string"/>
+<key id="DateStrictEnd" for="node" attr.name="DateStrictEnd" attr.type="string"/>
+<key id="SubUnit" for="node" attr.name="SubUnit" attr.type="string"/>
+<key id="Info" for="node" attr.name="Info" attr.type="string"/>
+<key id="Place" for="node" attr.name="Place" attr.type="string"/>
+<key id="Date" for="node" attr.name="Date" attr.type="string"/>
+<key id="Creator" for="node" attr.name="Creator" attr.type="string"/>
+<key id="Medium" for="node" attr.name="Medium" attr.type="string"/>
+<key id="Lang" for="node" attr.name="Lang" attr.type="string"/>
+<key id="GenSubdiv" for="node" attr.name="GenSubdiv" attr.type="string"/>
+<key id="GeoArea" for="node" attr.name="GeoArea" attr.type="string"/>
+<key id="Coordinates" for="node" attr.name="Coordinates" attr.type="string"/>
+<key id="UriGeonames" for="node" attr.name="UriGeonames" attr.type="string"/>
+<key id="Title" for="node" attr.name="Title" attr.type="string"/>
+<key id="Genre" for="node" attr.name="Genre" attr.type="string"/>
+<key id="labels" for="node" attr.name="labels" attr.type="string"/>
+<key id="label" for="edge" attr.name="label" attr.type="string"/>
+<key id="id" for="edge" attr.name="id" attr.type="string"/>
+<key id="SourceType" for="edge" attr.name="SourceType" attr.type="string"/>
+<key id="TypeAddInfo" for="edge" attr.name="TypeAddInfo" attr.type="string"/>
+<key id="TempValidity" for="edge" attr.name="TempValidity" attr.type="string"/>
+<key id="Source" for="edge" attr.name="Source" attr.type="string"/>
+<graph id="G" edgedefault="directed">
+""")
+       ######## ADD NODES ###########
+        with open("data/IsilNodes.graphml", 'r', encoding='utf8') as file:
+            for line in file.readlines():
+                out.write(line)
+        for f in allfiles:
+            if "Nodes" in f:
+                print(f)
+                file = open('graphml/'+ f, 'r', encoding='utf8')
+                for line in file.readlines():
+                    out.write(line)
+                file.close()
+        ####### ADD EDGES #############
+        for f in allfiles:
+            if "Edges" in f:
+                print(f)
+                file = open('graphml/'+ f, 'r', encoding='utf8')
+                for line in file.readlines():
+                    out.write(line)
+                file.close()
+        out.write("""</graph>
+</graphml>""")    
     
 if __name__=='__main__': 
     fire.Fire()    
