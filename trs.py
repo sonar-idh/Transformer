@@ -115,6 +115,5 @@ if __name__=='__main__':
         process_tsv(tsv_files)
         write_enriched_graphml("data/entities-dict.json", "graphml")
         merge_all_files(out_file, ocr_data_path, all_data_path)
-
-if __name__=='__main__':    
+        
     fire.Fire()
