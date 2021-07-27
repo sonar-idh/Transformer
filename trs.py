@@ -6,8 +6,8 @@ import time
 import datetime
 from src.marcTransform import MARC21
 from src.eadTransform import EAD
-from enrich.transform_ocr import write_enriched_nodes, process_tsv
-from enrich.merge import merge_files
+from enrich.transform_ocr import write_enriched_graphml, process_tsv
+from enrich.merge import merge_all_files
 import fire
 
 if __name__=='__main__': 
@@ -26,7 +26,7 @@ if __name__=='__main__':
                              ("Kongresse", "MeetName")
     ]:
     #    fn = 'C:/Users/elle01/Documents/SoNAR/sonar/Normdaten/GND_{}_MARC21XML_20190613.mrc.xml.gz'.format(filename)
-        fn = 'Datendump/GND_{}_MARC21XML_20190613.mrc.xml.gz'.format(filename)
+        fn = 'D:/Datendump/GND_{}_MARC21XML_20190613.mrc.xml.gz'.format(filename)
         print('Process {}'.format(entity))
         
         # Laufzeit messen
@@ -40,7 +40,7 @@ if __name__=='__main__':
             
     
             
-    # Daten aus der ZDB, DNB
+#    # Daten aus der ZDB, DNB
     dt="Bibliographic"     
     for filename, entity in [("ZDB_MARC21_20190305", "Zdb"), 
                              ("DNB_MARC21_20190613-1", "Dnb1"),
@@ -88,24 +88,33 @@ if __name__=='__main__':
     
     gr=EAD(filename = 'Datendump/KPE_EADXML_20190701.zip')
     
-    def integrate_ocr(inp_files, out_file):
+    def integrate_ocr(tsv_files, out_file, ocr_data_path, all_data_path):
         """
-        Use to process OCR files.
+        Use to process OCR files and merge all files
+        into one .graphml file.
     
         Parameters
         ----------
         
-        inp_files : str
+        tsv_files : str
             Path to directory which contains ocr files in tsv format 
         out_file : str
             Name and path of output file, name needs to end in '.graphml'
-       
+        ocr_data_path : str
+            Name of directory which contains the 
+            ocr .graphml files 
+        all_data_path : str
+            Name of directory which contains all .graphml
+            files (except the ocr .graphml files), 
+            should be in data/graphml/
+            
         Returns
         -------
         None.
         """
-        process_tsv(inp_files)
-        write_enriched_nodes("data/entities-dict.json", "graphml")
-        merge_files(out_file, inp_files)
-    
+        process_tsv(tsv_files)
+        write_enriched_graphml("data/entities-dict.json", "graphml")
+        merge_all_files(out_file, ocr_data_path, all_data_path)
+
+if __name__=='__main__':    
     fire.Fire()
