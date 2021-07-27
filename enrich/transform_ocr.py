@@ -1,17 +1,30 @@
 # coding: utf-8
+"""
+@author: melina
+"""
 
 from enrich.sonar_server import Neo4jConnection
-from enrich.enrich_data import search_doublette, wd_id_to_gnd, gnd_to_wd_id, add_label, enrich_entity
-import csv
+from enrich.enrich_data import search_doublette, wd_id_to_gnd, gnd_to_wd_id, enrich_entity
 from os import listdir
 from os.path import isfile, join
 import pandas as pd
-from itertools import cycle
 import json
 import re
-import fire
 
 def process_tsv(inpath):
+    """
+    Proceses the ocr .tsv files and
+    returns the file 'entities-dict.json'
+    ---------
+    
+    in_path : str
+        Path to directory which contains
+        the .tsv files.
+        
+    Returns
+    -----------
+    None.
+    """
     filelist = [f for f in listdir(inpath) if isfile(join(inpath, f))]
     print(filelist)
     results = {}
@@ -85,15 +98,27 @@ def process_tsv(inpath):
                 multient = False
             print(entities)
         results[x]= {"meta": meta, "entities": entities}
-        json.dump(results, open('data/entities-dict.json', 'w', encoding='utf8'), indent=4)
+        json.dump(results, open('D:/SoNAR/Transformers/data/entities-dict.json', 'w', encoding='utf8'), indent=4)
 
-def write_enriched_nodes(result_file, output_format): # entities-dict.json
+def write_enriched_graphml(result_file, output_format): 
+    """
+    Use to integrate ocr files. Writes enriched .graphml files . 
+    ---------
+    result_file : str
+        'entities-dict.json', output of process_tsv method.
+    output_format : str
+        Currently 'graphml' supported.
+        
+    Returns
+    -----------
+    str.
+    """
     with open(result_file, 'r') as inp:
         if output_format ==  'graphml':
-            doc_nodes = open('data/graphml/OCRDocumentNodes.graphml', 'w', encoding="utf8")
-            wiki_nodes = open('data/graphml/WikiNodes.graphml', 'w', encoding="utf8")
-            same_edges = open('data/graphml/SameAsEdges.graphml', 'w', encoding="utf8")
-            contains_edges = open('data/graphml/DocContainsEntEdges.graphml', 'w', encoding="utf8")
+            doc_nodes = open('D:/SoNAR/Transformers/data/ocr/OCRDocumentNodes.graphml', 'w', encoding="utf8")
+            wiki_nodes = open('D:/SoNAR/Transformers/data/ocr/WikiNodes.graphml', 'w', encoding="utf8")
+            same_edges = open('D:/SoNAR/Transformers/data/ocr/SameAsEdges.graphml', 'w', encoding="utf8")
+            contains_edges = open('D:/SoNAR/Transformers/data/ocr/DocContainsEntEdges.graphml', 'w', encoding="utf8")
             docs = json.load(inp)
             doc_node_count = 0
             wiki_node_count = 0
@@ -102,11 +127,12 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
             attribute_list = ["Sent", "Token", "Emb", "Left", "Top", "Width", "Height"]
             id_dict = {}
             for doc in docs:
-                if doc_node_count == 1:
-                    break
+#                if doc_node_count == 1:
+#                    break
                 meta = docs[doc]['meta']
                 node_id = "OCR" + meta["IdZDB"] + meta["date"]
                 doc_nodes.write('<node id="' + node_id + '" labels=":OCRDocument"><data key="labels">:OCRDocument</data>')
+                doc_nodes.write('<data key="' + 'Name' +'">' + doc.strip(".tsv") + '</data>')
                 for ele in meta:
                     if ele == "date":
                         time = meta[ele]
@@ -149,7 +175,9 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
                             contains_edges_count += 1
                             continue
                         elif wd_id in id_dict:
-                            if not ne_tag in id_dict[wd_id]:  # Add relation + new tag         
+                            if not ne_tag in id_dict[wd_id]:  
+                                # Wenn zwar Wd ID vorhanden, aber
+                                # mit anderem Entitätstypen     
                                 tags = []
                                 if not type(id_dict[wd_id]) == list:
                                     tags.append(id_dict[wd_id])
@@ -159,7 +187,6 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
                                         tags.append(tag)
                                     tags.append(ne_tag)
                                 id_dict[wd_id] = tags # Trotzdem neuen Node erstellen, da neuer Typ
-                                #name = add_label(wd_id)
                                 name = ele[entity]['Token']
                                 name = re.sub("&", "&#38;", name)
                                 gnd_id = wd_id_to_gnd(wd_id)
@@ -178,9 +205,6 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
                                         else:
                                             wiki_nodes.write('<data key="' + prop + '">' + properties[prop] + '</data>')                                            
                                 wiki_nodes.write('<data key="' + 'IdWikidata' + '">' + wd_id  + '</data>') 
-#                                if name == "-" or name == []:
-#                                    wiki_nodes.write('<data key="' + 'Name' + '">' + ele[entity]['Token']  + '</data>')
-#                                else:
                                 wiki_nodes.write('<data key="' + 'Name' + '">' + name  + '</data>')
                                 wiki_nodes.write('<data key="' + 'Type' + '">' + ne_tag  + '</data>')
                                 wiki_nodes.write('</node>\n')
@@ -200,10 +224,9 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
                                             contains_edges.write('<data key="' + attribute + '">' + ';;;'.join(x for x in whole_entity[attribute])  + '</data>')
                                 contains_edges.write('</edge>\n')
                                 contains_edges_count += 1
-                        elif not wd_id in id_dict:  # This checks whether a new WikiName entity needs to be added
+                        elif not wd_id in id_dict:  #  Neue WikiName entity wird hinzugefügt
                             if not wd_id == "-":
                                 id_dict[wd_id] = ne_tag
-                                #name = add_label(wd_id)
                                 name = ele[entity]['Token']
                                 name = re.sub("&", "&#38;", name)
                                 gnd_id = wd_id_to_gnd(wd_id)
@@ -222,9 +245,6 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
                                         else:
                                             wiki_nodes.write('<data key="' + prop + '">' + properties[prop] + '</data>')                                 
                                 wiki_nodes.write('<data key="' + 'IdWikidata' + '">' + wd_id  + '</data>') 
-#                                if name == "-" or name == []:
-#                                    wiki_nodes.write('<data key="' + 'Name' + '">' + ele[entity]['Token']  + '</data>')
-#                                else:
                                 wiki_nodes.write('<data key="' + 'Name' + '">' + name  + '</data>')
                             elif wd_id == "-":
                                 unknown_count += 1
@@ -244,3 +264,6 @@ def write_enriched_nodes(result_file, output_format): # entities-dict.json
                                         contains_edges.write('<data key="' + attribute + '">' + ';;;'.join(x for x in whole_entity[attribute])  + '</data>')
                             contains_edges.write('</edge>\n')
                             contains_edges_count += 1
+                            
+#process_tsv('D:/SoNAR/Enrich/batch3/')
+#write_enriched_graphml('D:/SoNAR/Transformers/data/entities-dict.json', 'graphml')
