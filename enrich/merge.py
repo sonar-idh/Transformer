@@ -5,6 +5,7 @@
 
 from os import listdir
 from os.path import isfile, join
+import fire
 
 def merge_ocr_files(outfile, ocr_data_path):
     """
@@ -124,6 +125,7 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
     all_data_path : str
         Name of directory which contains all .graphml
         files (except the ocr .graphml files)
+        
     Returns
     -----------
     None.
@@ -235,5 +237,6 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
             out.write("""</graph>
 </graphml>""")
     
-    
+if __name__=='__main__': 
+    fire.Fire()    
 #merge_ocr_files("D:/SoNAR/Transformers/data/merged/version_23-07-21.graphml", "D:/SoNAR/Transformers/data/graphml/")
