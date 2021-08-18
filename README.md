@@ -89,7 +89,7 @@ Zu beachten, dass Pfade zu Ausgangsdaten in [`trs.py`](https://github.com/sonar-
 ## Weitere Informationen:
 - [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
 - [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
-- [Aktuellste Transformation, Datendump] (https://1drv.ms/u/s!AsnDx7PkKZE7iEnSlbaXB91zWaPn?e=NtT3oN) Stand 16.06.2021
+- [Aktuelle Transformation, Datendump](https://1drv.ms/u/s!AsnDx7PkKZE7iEnSlbaXB91zWaPn?e=NtT3oN) Stand 16.06.2021
 
 # [Transformation MARC21](https://github.com/sonar-idh/Transformer/blob/main/src/MarcTransform.py) 
 
