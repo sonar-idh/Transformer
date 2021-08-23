@@ -147,11 +147,66 @@
 ![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)
 
 # Teil III. Volltexte
-TODO
+Onedrive Dokumentation (detaillierter, mehr Kommentare + Beispiele): https://1drv.ms/w/s!AsnDx7PkKZE7iGHyfxYvQnXUC-5z?e=K0OwXs 
 
-Onedrive Dokumentation: https://1drv.ms/w/s!AsnDx7PkKZE7iGHyfxYvQnXUC-5z?e=K0OwXs 
+## Übersicht erweitertes Datenmodell
+- neue Entitäten: OCRDocument, WikiName
+- neue Relationen: DocContainsEnt (OCRDocument → WikiName), SameAs (PerName ↔ WikiName; CorpName ↔ WikiName; GeoName ↔ WikiName)
 
-Dokumentation auf GitHub folgt in Kürze (Stand 19.07.2021)
+## Entitäten
+### OCRDocument
+- id: “OCR” + Zdb Id + Date of Issue. Beispiel:  OCR1161410918821002 
+- labels: “OCRDocument” 
+- IdZDB: Entspricht der Zdb Id. Beispiel: 11614109 
+- Name: Entspricht dem Dateinamen (ohne “.tsv”) 
+- DateStrictBegin: Beispiel: 12.01.1975 
+- DateApproxBegin: Beispiel: 1975 
+- issue: (0 = morning issue, 1 = evening issue etc., Default = 0) 
+- page: Seiten/Bild Nr. 
+- article: Id des Artikels (nicht verwendet, Default = 0) 
+- version: nicht verwendet, Default = 0 
+- url: URL. Beispiel: https://content.staatsbibliothek-berlin.de/zefys/SNP11614109-18821002-0-1-0-0/full/full/0/default.jpg  
+
+### WikiName
+- id: “Wiki_“ + Wikidata Id. Beispiel: Wiki_Q20775499  
+- labels: “WikiName“ 
+- IdWikidata: Beispiel: Q20775499 
+- IdGND: GND Id (falls Verlinkung bei Wikidata vorhanden) 
+- Name: Name der Entität 
+- Type: Entspricht dem Entitätstypen (PER; ORG; LOC) 
+
+Wikidata Merkmale
+
+- WdDateApproxBegin: Beispiel: 1893 
+- WdDateStrictBegin: Beispiel: 01.01.1893 
+- WdDateApproxOriginal: Beispiel: 1893-1976 
+- WdDateStrictOriginal: Beispiel: 01.01.1893-01.01.1976 
+- WdDateApproxEnd: Beispiel: 1976 
+- WdDateStrictEnd: Beispiel: 01.01.1976 
+- WdGender: Wert entweder 0 (weiblich) oder 1 (männlich)  
+- WdPlaceOfBirth: Geburtsort Name 
+- WdPlaceOfBirthId: Geburtsort Wikidata Id 
+- WdPlaceOfDeath: Sterbeort Name 
+- WdPlaceOfDeathId: Sterbeort Wikidata Id 
+
+## Relationen
+### DocContainsEnt
+- id: “FromOCR” + OCRDocument Id + “ToWiki” + Entitätstyp + “_” + Wikidata Id + Nr. der Kante. Beispiel: FromOCR1161410918821002ToWikiORG_Q694714_1 
+- label: “DocContainsEnt“ 
+- source: Id des OCRDocuments, welches die Entität enthält. 
+- target: Id der Entität WikiName 
+- TypeAddInfo: “directed” (Gerichtete Relation) 
+- Sent: indicates the sentence position (≥1, 0 marks sentence boundaries) 
+- Name: Entspricht dem Namen der gefundenen Entität 
+- Emb: contains the embedded entity label (BIO chunking) 
+- (url: Entitätenspezifischer Url, hier werden die Koordinaten der Entität in den Url eingesetzt: https://content.staatsbibliothek-berlin.de/zefys/SNP11614109-18821002-0-1-0-0/382,746,1046,1104/full/0/default.jpg ) Anmerkung: Wird nur hinzugefügt, falls gewünscht (Stand 23.08.2021)
+
+### SameAs
+- id: “From” + GND Id + “ToWiki” + Entitätstyp +“_” + Wikidata Id. Beispiel: From(DE-588)4005728-8ToWikiLOC_Q64  
+- label: “SameAs” 
+- source: Id zum Source Node 
+- target: Id zum Target Node  
+- TypeAddInfo: “undirected” (= Die Relation ist ungerichtet) 
 
 # Teil IV. Anpassung des Datenmodells
 ## 1. Entitätenspezifische Bezeichnungen ändern (Version 10.07.2020)
