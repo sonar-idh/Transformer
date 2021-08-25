@@ -1,6 +1,16 @@
 
 # Transformer
 
+## Informationen und Links:
+- [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
+- [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
+- [Aktuelle Transformation, Datendump](https://1drv.ms/u/s!AsnDx7PkKZE7iEnSlbaXB91zWaPn?e=NtT3oN) Stand 16.06.2021
+	- Aus GND Daten werden keine sozialen Relationen mehr abgeleitet
+	- Zettelkastenproblem durch Erweiterung der Liste mit Rollenattributen "gelöst" `["behandelt", "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft"]`
+	- Regel 6: knows Relation zwischen Verfasser und erwähnte/ behandelte Person/ Körperschaft in einem Brief hinzugefügt (bisher nicht enthalten gewesen)
+	- Genre "Brief" hinzugefügt (bisher nur "Briefe" und "Briefwechsel" vertreten)
+	- Statt ` if selectedData['Genre'] == "Briefe"` jetzt `if "Briefe" in selectedData['Genre']`
+
 ## Transformation aller Daten (ohne OCR + ohne Zusammenführen)
 
 Um alle Daten (ausgenommen OCR Daten) zu transformieren, im Terminal folgendes ausführen:
@@ -79,17 +89,11 @@ Argumente der `merge_except_ocr` Funktion:
 - Pfad zu Ordner mit Ausgangsdaten in Terminal eingeben
 - Ausgabe, wenn Skripts ausgeführt werden, optimieren
 - Konflikt in EadTransform.py line 56 beim Einlesen des Zip-Files, so steht z.Z. da ein String statt einer Variable 'filename'
-- `nonEntities.txt` auch auf dem Onedrive zu finden [https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N](https://1drv.ms/t/s!AsnDx7PkKZE7iCl-c-mcpcvQ4B_N). Wurde mittlerweile aber auch auf GitHub hochgeladen
 - `requirements` hinzufügen
 - ~UML-Modell erstellen, was neo4j generiert ist unübersichtlich~
 
 
 Zu beachten, dass Pfade zu Ausgangsdaten in [`trs.py`](https://github.com/sonar-idh/Transformer/blob/main/trs.py) geändert werden müssen.
-
-## Weitere Informationen:
-- [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
-- [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
-- [Aktuelle Transformation, Datendump](https://1drv.ms/u/s!AsnDx7PkKZE7iEnSlbaXB91zWaPn?e=NtT3oN) Stand 16.06.2021
 
 # [Transformation MARC21](https://github.com/sonar-idh/Transformer/blob/main/src/MarcTransform.py) 
 
