@@ -44,6 +44,7 @@ def process_tsv(inpath, outfile):
         page = meta[3]
         article = meta[4]
         version = re.sub("/left,top,width,height/full/0/default.jpg","", meta[5])
+        url = re.sub("left,top,width,height", "full", url)
         meta = {'IdZDB': zdb_id, 'date': date, 'issue': issue, 'page': page, 'article': article, 'version': version, 'url': url}
         file.close()
         filex = open(inpath + x, 'r', encoding='utf8')      
@@ -110,6 +111,8 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
         'entities-dict.json', output of process_tsv method.
     output_format : str
         Currently 'graphml' supported.
+    path_to_ocr : str
+        Path to the place where the ocr files should be written to
         
     Returns
     -----------
@@ -156,7 +159,7 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
                     for entity in ele:
                         whole_entity = ele[entity]
                         wd_id = ele[entity]['Wd_Id']
-                        ne_tag = ele[entity]['Tag']
+                        ne_tag = ele[entity]['Tag'] # get entity type
                         if type(ne_tag) == list:
                             ne_tag = ne_tag[0]
                         ne_tag = ne_tag.strip('I-').strip('B-')
@@ -192,7 +195,13 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
                                 name = ele[entity]['Token']
                                 name = re.sub("&", "&#38;", name)
                                 gnd_id = wd_id_to_gnd(wd_id)
-                                wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":WikiName"><data key="labels">:WikiName</data>')
+                                if "PER" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":PerName"><data key="labels">:PerName</data>')
+                                elif "LOC" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":GeoName"><data key="labels">:GeoName</data>')
+                                elif "ORG" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":CorpName"><data key="labels">:CorpName</data>')
+                               # wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":WikiName"><data key="labels">:WikiName</data>')
                                 if len(gnd_id) >= 3:
                                     wiki_nodes.write('<data key="' + 'IdGND' + '">' + gnd_id  + '</data>') 
                                     sonar_equivalent = search_doublette(gnd_id, ne_tag)
@@ -208,7 +217,8 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
                                             wiki_nodes.write('<data key="' + prop + '">' + properties[prop] + '</data>')                                            
                                 wiki_nodes.write('<data key="' + 'IdWikidata' + '">' + wd_id  + '</data>') 
                                 wiki_nodes.write('<data key="' + 'Name' + '">' + name  + '</data>')
-                                wiki_nodes.write('<data key="' + 'Type' + '">' + ne_tag  + '</data>')
+                                wiki_nodes.write('<data key="' + 'Source' + '">' + 'Wikidata'  + '</data>')
+                               # wiki_nodes.write('<data key="' + 'Type' + '">' + ne_tag  + '</data>')
                                 wiki_nodes.write('</node>\n')
                                 wiki_node_count += 1
                                 print("NE_Tag2: ", ne_tag, wd_id)
@@ -232,7 +242,13 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
                                 name = ele[entity]['Token']
                                 name = re.sub("&", "&#38;", name)
                                 gnd_id = wd_id_to_gnd(wd_id)
-                                wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":WikiName"><data key="labels">:WikiName</data>')
+                                if "PER" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":PerName"><data key="labels">:PerName</data>')
+                                elif "LOC" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":GeoName"><data key="labels">:GeoName</data>')
+                                elif "ORG" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":CorpName"><data key="labels">:CorpName</data>')
+                               # wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":WikiName"><data key="labels">:WikiName</data>')
                                 if len(gnd_id) >= 3:
                                     wiki_nodes.write('<data key="' + 'IdGND' + '">' + gnd_id  + '</data>')
                                     sonar_equivalent = search_doublette(gnd_id, ne_tag)
@@ -248,13 +264,21 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
                                             wiki_nodes.write('<data key="' + prop + '">' + properties[prop] + '</data>')                                 
                                 wiki_nodes.write('<data key="' + 'IdWikidata' + '">' + wd_id  + '</data>') 
                                 wiki_nodes.write('<data key="' + 'Name' + '">' + name  + '</data>')
+                                wiki_nodes.write('<data key="' + 'Source' + '">' + 'Wikidata'  + '</data>')
                             elif wd_id == "-":
                                 unknown_count += 1
                                 wd_id = "Unknown" + str(unknown_count)
-                                wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":WikiName"><data key="labels">:WikiName</data>')
+                               # wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":WikiName"><data key="labels">:WikiName</data>')
+                                if "PER" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":PerName"><data key="labels">:PerName</data>')
+                                elif "LOC" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":GeoName"><data key="labels">:GeoName</data>')
+                                elif "ORG" in ne_tag:
+                                    wiki_nodes.write('<node id="' + 'Wiki_' + wd_id + '" labels=":CorpName"><data key="labels">:CorpName</data>') 
                                 wiki_nodes.write('<data key="' + 'IdWikidata' + '">' + 'Unknown'  + '</data>')
                                 wiki_nodes.write('<data key="' + 'Name' + '">' + ele[entity]['Token']  + '</data>')
-                            wiki_nodes.write('<data key="' + 'Type' + '">' + ne_tag  + '</data>')
+                                wiki_nodes.write('<data key="' + 'Source' + '">' + 'Wikidata'  + '</data>')
+                           # wiki_nodes.write('<data key="' + 'Type' + '">' + ne_tag  + '</data>')
                             wiki_nodes.write('</node>\n')
                             wiki_node_count += 1
                             contains_edges.write('<edge id="From' + node_id + 'ToWiki' + ne_tag + "_" + wd_id + "_" + str(contains_edges_count) + '" source="' + node_id + '" target="Wiki_'+ wd_id + '" label="DocContainsEnt"><data key="label">DocContainsEnt</data><data key="TypeAddInfo">' + 'directed' + '</data>')
@@ -269,5 +293,5 @@ def write_enriched_graphml(result_file, path_to_ocr, output_format):
                             
 if __name__=='__main__': 
     fire.Fire()
-#    process_tsv('D:/SoNAR/Enrich/batch3/', 'D:/SoNAR/Transformers/data/ent-dict.json')
-#    write_enriched_graphml('D:/SoNAR/Transformers/data/ent-dict.json', 'D:/SoNAR/Transformers/data/ocr/', 'graphml')
+#    process_tsv('D:/SoNAR/Enrich/batch3/', 'D:/SoNAR/Transformers/data/entities-dict.json')
+#    write_enriched_graphml('D:/SoNAR/Transformers/data/entities-dict.json', 'D:/SoNAR/Transformers/data/ocr/', 'graphml')
