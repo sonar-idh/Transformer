@@ -33,7 +33,7 @@ def merge_ocr_files(outfile, ocr_data_path):
 <key id="Uri" for="node" attr.name="Uri" attr.type="string"/>
 <key id="GenType" for="node" attr.name="GenType" attr.type="string"/>
 <key id="SpecType" for="node" attr.name="SpecType" attr.type="string"/>
-<key id="Type" for="node" attr.name="Type" attr.type="string"/>
+<key id="Source" for="node" attr.name="Source" attr.type="string"/>
 <key id="Name" for="node" attr.name="Name" attr.type="string"/>
 <key id="IdZDB" for="node" attr.name="IdZDB" attr.type="string"/>
 <key id="DateApproxBegin" for="node" attr.name="DateApproxBegin" attr.type="string"/>
@@ -135,14 +135,13 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
         out.write("""<?xml version="1.0" encoding="UTF-8"?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="id" for="node" attr.name="id" attr.type="string"/>
-<key id="Id" for="node" attr.name="Id" attr.type="string"/>
 <key id="IdGND" for="node" attr.name="IdGND" attr.type="string"/>
 <key id="IdWikidata" for="node" attr.name="IdWikidata" attr.type="string"/>
 <key id="OldId" for="node" attr.name="OldId" attr.type="string"/>
 <key id="Uri" for="node" attr.name="Uri" attr.type="string"/>
 <key id="GenType" for="node" attr.name="GenType" attr.type="string"/>
 <key id="SpecType" for="node" attr.name="SpecType" attr.type="string"/>
-<key id="Type" for="node" attr.name="Type" attr.type="string"/>
+<key id="Source" for="node" attr.name="Source" attr.type="string"/>
 <key id="Name" for="node" attr.name="Name" attr.type="string"/>
 <key id="IdZDB" for="node" attr.name="IdZDB" attr.type="string"/>
 <key id="DateApproxBegin" for="node" attr.name="DateApproxBegin" attr.type="string"/>
@@ -199,24 +198,26 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
 <key id="SourceType" for="edge" attr.name="SourceType" attr.type="string"/>
 <key id="TempValidity" for="edge" attr.name="TempValidity" attr.type="string"/>
 <key id="Source" for="edge" attr.name="Source" attr.type="string"/>
-<key id="SourceType" for="edge" attr.name="SourceType" attr.type="string"/>
 <graph id="G" edgedefault="directed">
 """)
         ######## ADD NODES #############
-        with open(ocr_data_path +'/'+ 'OCRDocumentNodes.graphml', 'r', encoding='utf8') as file:
+        with open(ocr_data_path +'/'+ 'OCRDocumentNodes090921.graphml', 'r', encoding='utf8') as file:
+            print("OCRDocumentNodes...")
             for line in file.readlines():
                 out.write(line)
-        with open(ocr_data_path +'/'+ 'WikiNodes.graphml', 'r', encoding='utf8') as file:
+        with open(ocr_data_path +'/'+ 'WikiNodes090921.graphml', 'r', encoding='utf8') as file:
+            print("WikiNodes...")
             for line in file.readlines():
                 out.write(line)
        ######## ADD ISIL NODES ###########
-        with open("data/IsilNodes.graphml", 'r', encoding='utf8') as file:
+        with open("D:/SoNAR/Transformers/data/IsilNodes.graphml", 'r', encoding='utf8') as file:
+            print("Isil Nodes...")
             for line in file.readlines():
                 out.write(line)
         for f in allfiles:
             if "Nodes" in f:
                 print(f)
-                file = open('graphml/'+ f, 'r', encoding='utf8')
+                file = open(all_data_path +'/'+ f, 'r', encoding='utf8')
                 for line in file.readlines():
                     out.write(line)
                 file.close()
@@ -224,14 +225,16 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
         for f in allfiles:
             if "Edges" in f:
                 print(f)
-                file = open('graphml/'+ f, 'r', encoding='utf8')
+                file = open(all_data_path +'/'+ f, 'r', encoding='utf8')
                 for line in file.readlines():
                     out.write(line)
                 file.close()
-        with open(ocr_data_path +'/'+ 'DocContainsEntEdges.graphml', 'r', encoding='utf8') as file:
+        with open(ocr_data_path +'/'+ 'DocContainsEntEdges090921.graphml', 'r', encoding='utf8') as file:
+            print("DocContainsEntEdges...")
             for line in file.readlines():
                 out.write(line)
-        with open(ocr_data_path +'/'+ 'SameAsEdges.graphml', 'r', encoding='utf8') as file:
+        with open(ocr_data_path +'/'+ 'SameAsEdges090921.graphml', 'r', encoding='utf8') as file:
+            print("SameAsEdges...")
             for line in file.readlines():
                 out.write(line)
             out.write("""</graph>
@@ -294,7 +297,7 @@ def merge_except_ocr(outfile, all_data_path):
 <graph id="G" edgedefault="directed">
 """)
        ######## ADD NODES ###########
-        with open("data/IsilNodes.graphml", 'r', encoding='utf8') as file:
+        with open("D:/SoNAR/Transformers/data/IsilNodes.graphml", 'r', encoding='utf8') as file:
             for line in file.readlines():
                 out.write(line)
         for f in allfiles:
@@ -317,4 +320,4 @@ def merge_except_ocr(outfile, all_data_path):
     
 if __name__=='__main__': 
     fire.Fire()    
-#merge_ocr_files("D:/SoNAR/Transformers/data/merged/version_23-07-21.graphml", "D:/SoNAR/Transformers/data/graphml/")
+    #merge_all_files("D:/SoNAR/Transformers/data/merged/all_v090921.graphml", "D:/SoNAR/Transformers/data/ocr", "D:/SoNAR/Transformers/data/graphml")
