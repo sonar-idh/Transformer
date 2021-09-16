@@ -119,9 +119,9 @@
 1. Zusätzliche Information zu einer Relation `TypeAddInfo`:
 	 - im GND-Datendump sind es zusätzliche Information bezüglich Relationen aus dem Unterfeld `9v:`
 	 - im DNB- und ZDB-Datendump sind es Beziehungskennzeichen aus dem Unterfeld `a` oder Beziehungsart bezüglich eines fortlaufenden Sammelwerks aus dem Unterfeld `i`
-2. Zeitliche Gültigkeit einer Relationen `TypeValidity`
-	 - im GND-Datendump sind es zeitliche Gültigkeit der Relationen aus dem Unterfeld `9Z:`
-	 - im DNB- und ZDB-Datendump sind es sind es zeitliche Gültigkeit der Relationen je nach Datenfeld aus den Unterfeldern `b` oder `n`
+2. Zeitliche Gültigkeit einer Relation `TypeValidity`
+	 - im GND-Datendump ist die zeitliche Gültigkeit der Relationen im Unterfeld `9Z:` vorzufinden
+	 - im DNB- und ZDB-Datendump ist die zeitliche Gültigkeit der Relationen je nach Datenfeld in den Unterfeldern `b` oder `n` zu finden
 
  
 ## 2. Implizite Relationen (soziale Relation `SocialRelation` genannt)
@@ -144,7 +144,8 @@
 
 # Datenmodell
 
-![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)
+<!--![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)-->
+![](https://raw.githubusercontent.com/sonar-idh/Transformer/1ffaa0f72209228f902957364b06421b36b65121/doc/ER-Modell.svg?token=AN6F2ANKEBSPCJP36ZT5AFDBIMB4S)
 
 # Teil III. Volltexte
 Onedrive Dokumentation (detaillierter, mehr Kommentare + Beispiele): https://1drv.ms/w/s!AsnDx7PkKZE7iGHyfxYvQnXUC-5z?e=K0OwXs 
