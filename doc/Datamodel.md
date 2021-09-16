@@ -144,8 +144,9 @@
 
 # Datenmodell
 
-<!--![](https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg)-->
-![](https://raw.githubusercontent.com/sonar-idh/Transformer/1ffaa0f72209228f902957364b06421b36b65121/doc/ER-Modell.svg?token=AN6F2ANKEBSPCJP36ZT5AFDBIMB4S)
+![](https://raw.githubusercontent.com/sonar-idh/Transformer/0bc81f75c554dce0cca0d325d24add811f2740b7/doc/ER-Modell.svg?token=AN6F2ALKP7G53R5KNDN2SQLBIMEAE)
+
+Altes Datenmodell: https://trello-attachments.s3.amazonaws.com/5d25058e9162b567b860149f/5e3c13bb607286561cc56f57/bdfd88869d7f3edeafc6b2c102caffc4/UmlModel.svg
 
 # Teil III. Volltexte
 Onedrive Dokumentation (detaillierter, mehr Kommentare + Beispiele): https://1drv.ms/w/s!AsnDx7PkKZE7iGHyfxYvQnXUC-5z?e=K0OwXs 
