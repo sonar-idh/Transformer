@@ -11,7 +11,17 @@
 	- Genre "Brief" hinzugefügt (bisher nur "Briefe" und "Briefwechsel" vertreten)
 	- Statt ` if selectedData['Genre'] == "Briefe"` jetzt `if "Briefe" in selectedData['Genre']`
 
-## Transformation aller Daten (ohne OCR + ohne Zusammenführen)
+## Übersicht: Was gemacht werden muss, um die Daten zu transformieren
+
+Die Datentransformation gliedert sich grob in drei Schritte:
+
+- Schritt 1: Daten müssen transformiert werden. Output: Mehrere, (noch) nicht valide GRAPHML Dateien, aufgeteilt jeweils in Knoten und Kanten
+- Schritt 2: Transformierte Daten müssen zusammengeführt werden. Output: EINE valide GRAPHML Datei, erstellt aus den aus Schritt 1 transformierten Dateien (+ Isil Nodes)
+- Schritt 3: Aus der zusammengeführten Datei muss das Sonderzeichen "&" durch "&#38;" ersetzt werden (`replace_spec_char()` in `merge.py`), um Import Error zu vermeiden. Output: EINE valide GRAPHML Datei ohne alleinstehende "&" (Schritt 3 sollte in Zukunft in einer der vorherigen Schritte integriert werden)
+
+Im Folgenden wird dargestellt, welche Funktionen wie genutzt werden können und welche Schritte damit erfüllt werden.
+
+### Transformation aller Daten (ohne OCR + ohne Zusammenführen; Schritt 1) 
 
 Um alle Daten (ausgenommen OCR Daten) zu transformieren, im Terminal folgendes ausführen:
 
@@ -21,9 +31,9 @@ python trs.py
 
 Achtung: Vor dem Ausführen müssen die Pfade in trs.py zu den Datendumps angepasst werden!
 
-## Transformation aller Daten (mit OCR + Zusammenführen aller Dateien)
-Um alle Daten inklusive OCR Daten zu transformieren und anschließend zusammen mit allen Daten in eine GRAPHML Datei zusammenzuführen, im Terminal folgendes ausführen:
+### Transformation aller Daten (mit OCR + Zusammenführen aller Dateien; Schritt 1 + 2)
 
+Um alle Daten inklusive OCR Daten zu transformieren und anschließend zusammen mit allen Daten in eine GRAPHML Datei zusammenzuführen, im Terminal folgendes ausführen:
 
 ```
 python trs.py integrate_ocr ocr_tsv_dir/ merged/output_filename.graphml ocr_data_dir/ all_data_dir/
@@ -38,7 +48,8 @@ Argumente der `integrate_ocr` Funktion:
 - all_data_dir/: Ordner, welcher alle anderen .graphml Dateien enthält, außer die OCR GRAPHML Dateien.
 
 ## Nutzen einzelner Funktionen
-### OCR: Transformieren der OCR TSV Dateien zu JSON 
+
+### OCR: Transformieren der OCR TSV Dateien zu JSON (Schritt 1)
 
 
 ```
@@ -49,7 +60,7 @@ Argumente der `process_tsv` Funktion:
 - path_to_tsv: Ordner, welcher die OCR Daten im TSV Format enthält
 - path_to/entities-dict.json: Name und Ort der JSON Datei. 
 
-###  OCR: Transformation von JSON zu GRAPHML
+###  OCR: Transformation von JSON zu GRAPHML (Schritt 1)
 
 
 ```
@@ -61,7 +72,7 @@ Argumente der `write_enriched_graphml` Funktion:
 - path_to_ocr_graphml/: Ort, an dem die GRAPHML OCR Dateien gespeichert werden sollen
 - out_format : Momentan nur "graphml" als Wert möglich
 
-###  Zusammenführen: Alle Dateien, außer OCR
+###  Zusammenführen: Alle Dateien, außer OCR (Schritt 2)
 
 ```
 cd enrich
@@ -69,10 +80,10 @@ python merge.py merge_except_ocr path_to/merged_filenname.graphml path_to_graphm
 ```
 
 Argumente der `merge_except_ocr` Funktion: 
-- üath_to/merged_filenname.graphml: Name und Ort der zu erstellenden Datei
+- path_to/merged_filenname.graphml: Name und Ort der zu erstellenden Datei
 - path_to_graphml_files/: Ort der GRAPHML Dateien 
 
-###  Zusammenführen: Alle Dateien inklusive OCR
+###  Zusammenführen: Alle Dateien inklusive OCR (Schritt 2)
 
 ```
 cd enrich
@@ -83,6 +94,16 @@ Argumente der `merge_except_ocr` Funktion:
 - path_to/merged_filenname.graphml: Name und Ort der zu erstellenden Datei
 - path_to_ocr_graphml_files/: Ort der OCR GRAPHML Dateien
 - path_to_other_graphml_files/: Ort der anderen GRAPHML Dateien 
+
+### Problem Sonderzeichen "&" (Schritt 3)
+```
+cd enrich
+python merge.py replace_spec_char path_to/merged_filenname.graphml path_to/replaced_char_in_merged.graphml
+```
+Argumente der `replace_spec_char` Funktion: 
+- path_to/merged_filenname.graphml: Name und Ort der zusammengeführten Datei aus Schritt 2
+- path_to/replaced_char_in_merged.graphml: Name und Ort der zusammengeführten Datei ohne alleinstehendes "&"
+
 
 ## FIX 
 
