@@ -17,7 +17,7 @@ Die Datentransformation gliedert sich grob in drei Schritte:
 
 - Schritt 1: Daten müssen transformiert werden. Output: Mehrere, (noch) nicht valide GRAPHML Dateien, aufgeteilt jeweils in Knoten und Kanten
 - Schritt 2: Transformierte Daten müssen zusammengeführt werden. Output: EINE valide GRAPHML Datei, erstellt aus den aus Schritt 1 transformierten Dateien (+ Isil Nodes)
-- Schritt 3: Aus der zusammengeführten Datei muss das Sonderzeichen "&" durch "&#38;" ersetzt werden (`replace_spec_char()` in `merge.py`), um Import Error zu vermeiden. Output: EINE valide GRAPHML Datei ohne alleinstehende "&" (Schritt 3 sollte in Zukunft in einer der vorherigen Schritte integriert werden)
+- Schritt 3: Aus der zusammengeführten Datei muss das Sonderzeichen "&" escaped werden (`replace_spec_char()` in `merge.py`), um Import Error zu vermeiden. Output: EINE valide GRAPHML Datei ohne alleinstehende "&" (Schritt 3 sollte in Zukunft in einer der vorherigen Schritte integriert werden)
 
 Im Folgenden wird dargestellt, welche Funktionen wie genutzt werden können und welche Schritte damit erfüllt werden.
 
