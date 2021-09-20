@@ -318,6 +318,31 @@ def merge_except_ocr(outfile, all_data_path):
         out.write("""</graph>
 </graphml>""")    
     
+def replace_spec_char(file, outfile):
+    """
+    Rewrites merged file to replace the special 
+    character "&" (leading to Import Errors) with "&#38;".
+    ---------
+    file : str
+        Name + path of merged file.
+    outfile : str
+        Name + path of output file        
+    Returns
+    -----------
+    None.
+    """
+    with open(file, 'r', encoding="utf-8") as inp, open(outfile, "w", encoding="utf-8") as out:
+        count = 0
+        for line in inp:
+            count += 1
+            newline = line
+            if "&" in line:
+                newline = line.replace("amp;", "").replace("#38;","")
+                newline = newline.replace("&", "&#38;")
+            out.write(newline)
+                                                       
+# replace_spec_char("D:/SoNAR/Transformers/data/merged/all_v090921.graphml", "D:/SoNAR/Transformers/data/testfile.graphml") 
+
 if __name__=='__main__': 
     fire.Fire()    
     #merge_all_files("D:/SoNAR/Transformers/data/merged/all_v090921.graphml", "D:/SoNAR/Transformers/data/ocr", "D:/SoNAR/Transformers/data/graphml")
