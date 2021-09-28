@@ -138,6 +138,7 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
 <key id="IdGND" for="node" attr.name="IdGND" attr.type="string"/>
 <key id="IdWikidata" for="node" attr.name="IdWikidata" attr.type="string"/>
 <key id="OldId" for="node" attr.name="OldId" attr.type="string"/>
+<key id="Id" for="node" attr.name="Id" attr.type="string"/>
 <key id="Uri" for="node" attr.name="Uri" attr.type="string"/>
 <key id="GenType" for="node" attr.name="GenType" attr.type="string"/>
 <key id="SpecType" for="node" attr.name="SpecType" attr.type="string"/>
@@ -221,6 +222,13 @@ def merge_all_files(outfile, ocr_data_path, all_data_path):
                 for line in file.readlines():
                     out.write(line)
                 file.close()
+        for f in allfiles:
+            if "ChronTerm" in f:
+                print(f)
+                file = open(all_data_path +'/'+ f, 'r', encoding='utf8')
+                for line in file.readlines():
+                    out.write(line)
+                file.close()        
         ####### ADD ALL EDGES #############
         for f in allfiles:
             if "Edges" in f:
@@ -307,6 +315,13 @@ def merge_except_ocr(outfile, all_data_path):
                 for line in file.readlines():
                     out.write(line)
                 file.close()
+        for f in allfiles:
+            if "ChronTerm" in f:
+                print(f)
+                file = open(all_data_path +'/'+ f, 'r', encoding='utf8')
+                for line in file.readlines():
+                    out.write(line)
+                file.close()        
         ####### ADD EDGES #############
         for f in allfiles:
             if "Edges" in f:
@@ -345,4 +360,5 @@ def replace_spec_char(file, outfile):
 
 if __name__=='__main__': 
     fire.Fire()    
-    #merge_all_files("D:/SoNAR/Transformers/data/merged/all_v090921.graphml", "D:/SoNAR/Transformers/data/ocr", "D:/SoNAR/Transformers/data/graphml")
+   # merge_all_files("D:/SoNAR/Transformers/data/merged/merged280921_withspecchar.graphml", "D:/SoNAR/Transformers/data/ocr", "D:/SoNAR/Transformers/data/graphml")
+   # replace_spec_char("D:/SoNAR/Transformers/data/merged/merged280921_withspecchar.graphml", "D:/SoNAR/Transformers/data/merged280921.graphml") 
