@@ -2,14 +2,12 @@
 # Transformer
 
 ## Informationen und Links:
-- [Datenmodell](https://github.com/sonar-idh/Transformer/blob/main/doc/Datamodel.md)
-- [Statistik zu Daten](https://github.com/sonar-idh/Transformer/blob/main/doc/StatisticsFebruary2020.md) Stand Februar 2020
-- [Aktuelle Transformation, Datendump](https://1drv.ms/u/s!AsnDx7PkKZE7iEnSlbaXB91zWaPn?e=NtT3oN) Stand 16.06.2021
-	- Aus GND Daten werden keine sozialen Relationen mehr abgeleitet
-	- Zettelkastenproblem durch Erweiterung der Liste mit Rollenattributen "gelöst" `["behandelt", "Behandelt", "Erwähnt", "Erwähnte Person", "Behandelte Person", "Erwähnte Körperschaft", "Behandelte Körperschaft"]`
-	- Regel 6: knows Relation zwischen Verfasser und erwähnte/ behandelte Person/ Körperschaft in einem Brief hinzugefügt (bisher nicht enthalten gewesen)
-	- Genre "Brief" hinzugefügt (bisher nur "Briefe" und "Briefwechsel" vertreten)
-	- Statt ` if selectedData['Genre'] == "Briefe"` jetzt `if "Briefe" in selectedData['Genre']`
+MARC21xml-Daten (GND, ZDB, bibliographische Metadaten von DNB und SBB) und EAD-Daten (Kalliope-Verbund) werden in GraphML transformiert und anschließend in Neo4j geladen. Informationen zum Datenbezug: 
+- Gemeinsame Normdatei: https://data.dnb.de/GND/ 
+- Zeitschriftendatenbank: https://data.dnb.de/ZDB/           
+- DNB-Titeldaten: https://data.dnb.de/DNB/ 
+- SBB-Titeldaten: https://lab.sbb.berlin/bibliographische-daten-aus-dem-stabikat/ 
+- Kalliope-Verbund: https://lab.sbb.berlin/kpe/ 
 
 ## Übersicht: Was gemacht werden muss, um die Daten zu transformieren
 
